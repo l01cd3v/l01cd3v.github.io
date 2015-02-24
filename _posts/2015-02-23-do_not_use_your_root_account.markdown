@@ -6,7 +6,7 @@ post_author: Loïc Simon
 categories: AWS
 ---
 
-[Originally published on <a href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+[Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
 
 ### What is the AWS root account?
 
