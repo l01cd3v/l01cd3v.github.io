@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: not_list
 ---
 
 # Projects
@@ -50,6 +50,3 @@ store:
 
 * Chrome : [https://chrome.google.com/webstore/detail/cookie-jar/iikhngeniebocgncjooahpaojhnonkfb](https://chrome.google.com/webstore/detail/cookie-jar/iikhngeniebocgncjooahpaojhnonkfb)
 * Opera : [https://addons.opera.com/en/extensions/details/cookie-jar](https://addons.opera.com/en/extensions/details/cookie-jar)
-
-
-

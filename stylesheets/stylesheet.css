@@ -75,7 +75,6 @@ header h1 {
   color: #303030;
   letter-spacing: -1px;
   text-align: left;
-  margin: 0px 0px 0px 0px;
 }
 
 header h2 {
@@ -283,8 +282,10 @@ h5 {
 }
 
 h6 {
-  font-size: .8em;
-  color: #303030;
+  font-size: .9em;
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 15px;
 }
 
 p {
@@ -324,12 +325,11 @@ dl dt {
 }
 
 footer {
-  padding-top: 20px;
-  padding-bottom: 30px;
-  margin-top: 40px;
+  padding-top: 0px;
+  padding-bottom: 20px;
+  margin-top: 0px;
   font-size: 13px;
   color: #aaa;
-  background: transparent url('../images/hr.png') 0 0 no-repeat;
   text-align: center;
 }
 
@@ -353,6 +353,10 @@ footer a:hover {
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
 
+.date {
+    text-align: right;
+    margin-bottom: 10px;
+}
 /* #Media Queries
 ================================================== */
 

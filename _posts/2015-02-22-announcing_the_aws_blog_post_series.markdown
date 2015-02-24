@@ -1,12 +1,12 @@
 ---
-layout: isec
+layout: post
 title:  "Announcing the AWS blog post series"
 date:   2015-02-22 22:24
 post_author: Loïc Simon
 categories: AWS
 ---
 
-[Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+{% include isec.html %}
 
 Starting this month, iSEC Partners will start a series of blog posts related to
 AWS. The goal of these blog posts will be to:

@@ -8,11 +8,14 @@ layout: default
 
       <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
 
+      <div class="date">
+        Published on {{ post.date | date: "%B %e, %Y" }}
+      </div>
+
       <div class="entry">
         {{ post.content }}
       </div>
 
-      <!-- More empty space -->
       <hr>
 
     </article>

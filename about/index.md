@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: not_list
 ---
 
 # About
@@ -18,4 +18,3 @@ testing. iSEC Partners' research blog is available at
 * Email: l01cd3v[at]gmail[dot]com
 * Work: loic[at]isecpartners[dot]com
 * PPG: [https://pgp.mit.edu/pks/lookup?op=get&search=0x1A9A639A8DB9603E](https://pgp.mit.edu/pks/lookup?op=get&search=0x1A9A639A8DB9603E)
-
