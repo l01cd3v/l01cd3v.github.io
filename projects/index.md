@@ -14,6 +14,27 @@ gather security-related information for several services such as IAM, EC2, and
 S3. The tool is open-source and available on Github at
 [https://github.com/iSECPartners/Scout2](https://github.com/iSECPartners/Scout2).
 
+### AWS Recipes
+
+The AWS Recipes repository is a placeholder for the following:
+
+* Tools that facilitate daily work with AWS in a secure manner
+* Tools that may help penetration testers who compromise an AWS access key
+* IAM policies that improve one's security posture
+
+Most tools available are written in Python, but I do not exclude using other
+SDKs or the CLI tool sometimes. All tools, techniques, and policies are
+discussed in the [AWS blog post series]({{ site.baseurl}}/categories/aws). The
+AWS Recipes repository is available at
+[https://github.com/iSECPartners/AWS-Recipes](https://github.com/iSECPartners/AWS-Recipes).
+
+### AWS Utils
+
+AWS Utils is a Python library shared between Scout2 and tools provided in AWS
+Recipes. It is used as a git module in both repositories to allow code reused
+accross projects. This library is open-source as well and is available on Github at
+[https://github.com/iSECPartners/AWSUtils](https://github.com/iSECPartners/AWSUtils).
+
 ## Privacy
 
 ### CookieJar
