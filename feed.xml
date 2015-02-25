@@ -85,9 +85,10 @@ the cloud&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;To share material, iSEC created a new public
-&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-recipes&lt;/a&gt; repository on
-Github. The tools and policies shared in this repository will be discussed and
-explained in dedicated blog articles.&lt;/p&gt;
+&lt;a target=&quot;_blank&quot;
+href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-recipes&lt;/a&gt; repository
+on Github. The tools and policies shared in this repository will be discussed
+and explained in dedicated blog articles.&lt;/p&gt;
 
 &lt;p&gt;Because iSEC has been assessing the security of AWS environment for several
 years, we have a number of ideas and articles in the pipe awaiting to be
