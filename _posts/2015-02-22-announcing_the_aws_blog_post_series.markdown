@@ -19,9 +19,10 @@ AWS. The goal of these blog posts will be to:
 * Share AWS policies that help improve the security posture of AWS environments
 
 To share material, iSEC created a new public
-[AWS-recipes](https://github.com/iSECPartners/AWS-recipes) repository on
-Github. The tools and policies shared in this repository will be discussed and
-explained in dedicated blog articles.
+<a target="_blank"
+href="https://github.com/iSECPartners/AWS-recipes">AWS-recipes</a> repository
+on Github. The tools and policies shared in this repository will be discussed
+and explained in dedicated blog articles.
 
 Because iSEC has been assessing the security of AWS environment for several
 years, we have a number of ideas and articles in the pipe awaiting to be
