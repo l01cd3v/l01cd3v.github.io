@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>l01cd3v.github.io</title>
+    <description></description>
+    <link>https://l01cd3v.github.io</link>
+    <atom:link href="https://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Do not use your AWS root account</title>
+        <description>&lt;h6&gt;
+    [Originally published on &lt;a target=&quot;_blank&quot; href=&quot;https://isecpartners.github.io/&quot;&gt;iSEC Partners's research blog&lt;/a&gt;]
+&lt;/h6&gt;
+
+&lt;h3&gt;What is the AWS root account?&lt;/h3&gt;
+
+&lt;p&gt;The AWS root account is the account that was used -- or created -- when signing
+up with Amazon Web Services. This account has full access to all resources in
+the account and it is not possible to alter this configuration.&lt;/p&gt;
+
+&lt;h3&gt;Risks of using the AWS root account&lt;/h3&gt;
+
+&lt;p&gt;Using the AWS root account means that there is potential for its compromise.
+In particular, iSEC noticed that AWS customers who use the AWS root account
+tend to do the following:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Share credentials between employees.&lt;/li&gt;
+&lt;li&gt;Disable Multi-Factor Authentication (MFA) for convenience.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Shared credentials, aside from increasing the risk of compromise during the
+sharing process, render credential rotation impractical due to the need for the
+newly-generated secret to be known by multiple parties. Sharing the AWS root
+account also undermines any effort towards using IAM and leveraging the
+fine-grained access controls it offers. Finally, shared credentials result in
+loss of the attribution ability, which makes auditing harder and may prevent
+successful investigation.&lt;/p&gt;
+
+&lt;h3&gt;AWS Identity and Access Management (IAM)&lt;/h3&gt;
+
+&lt;p&gt;AWS IAM allows account administrators to create users for every employee and
+grant them access to a limited set of services, actions, and resources. This
+allows AWS account administrators to apply the principle of least privilege,
+which dictates that a given user should only be able to access the information
+and resources that are necessary for them to perform tasks they are responsible
+for. Additionally, use of IAM allows AWS users to rotate credentials and revoke
+privileges without impacting other employees.&lt;/p&gt;
+
+&lt;p&gt;AWS account administrators should create an &lt;em&gt;Administrator&lt;/em&gt; IAM group, grant
+administrator privileges to this group, and create individual IAM users for
+each employee in charge of administrating the AWS account. When done, the AWS
+root password should be rotated and stored in a safe manner. Furthermore,
+additional credentials such as access keys and certificates should be deleted.&lt;/p&gt;
+
+&lt;h3&gt;Important security consideration about the root account&lt;/h3&gt;
+
+&lt;p&gt;AWS users should always enable MFA on their root account, even when the
+password is securely stored; it is important to realize that the password reset
+for the root account process only requires access to the email address
+associated with this account. &lt;strong&gt;This means that, without MFA, your production
+environment is only as secure as an email.&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 23 Feb 2015 08:42:00 -0800</pubDate>
+        <link>https://l01cd3v.github.io/do_not_use_your_root_account/</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/do_not_use_your_root_account/</guid>
+      </item>
+    
+      <item>
+        <title>Announcing the AWS blog post series</title>
+        <description>&lt;h6&gt;
+    [Originally published on &lt;a target=&quot;_blank&quot; href=&quot;https://isecpartners.github.io/&quot;&gt;iSEC Partners's research blog&lt;/a&gt;]
+&lt;/h6&gt;
+
+&lt;p&gt;Starting this month, iSEC Partners will start a series of blog posts related to
+AWS. The goal of these blog posts will be to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Discuss common security gaps in AWS environments&lt;/li&gt;
+&lt;li&gt;Discuss common security gaps in the architecture of applications deployed in
+the cloud&lt;/li&gt;
+&lt;li&gt;Describe methods and tools used to identify these security gaps&lt;/li&gt;
+&lt;li&gt;Share tools and scripts that facilitate daily and secure work with AWS&lt;/li&gt;
+&lt;li&gt;Share AWS policies that help improve the security posture of AWS environments&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To share material, iSEC created a new public
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-recipes&lt;/a&gt; repository on
+Github. The tools and policies shared in this repository will be discussed and
+explained in dedicated blog articles.&lt;/p&gt;
+
+&lt;p&gt;Because iSEC has been assessing the security of AWS environment for several
+years, we have a number of ideas and articles in the pipe awaiting to be
+written and published. Our target goal is to publish at least on a bi-monthly
+basis at the beginning of the project, and adjust this publication rate after
+we catch up.&lt;/p&gt;
+
+&lt;p&gt;Without further due, we will start this series with articles that discuss
+Identity and Access Management (IAM) common issues and best practices, and will
+present a strategy to improve one&amp;#39;s security posture when using AWS.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 22 Feb 2015 22:24:00 -0800</pubDate>
+        <link>https://l01cd3v.github.io/announcing_the_aws_blog_post_series/</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/announcing_the_aws_blog_post_series/</guid>
+      </item>
+    
+      <item>
+        <title>Intro</title>
+        <description>&lt;p&gt;I&amp;#39;m a Security Engineer and, on this blog, I will talk about research projects
+I work on, tools that I write and publish, and miscellaneous security and
+privacy related subjects.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 21 Feb 2015 17:00:00 -0800</pubDate>
+        <link>https://l01cd3v.github.io/hello_world/</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/hello_world/</guid>
+      </item>
+    
+  </channel>
+</rss>
