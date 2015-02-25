@@ -357,6 +357,27 @@ footer a:hover {
     text-align: right;
     margin-bottom: 10px;
 }
+
+.post {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.post-list p {
+    margin: 0px 0px 0px 0px;
+}
+
+.post-list-title {
+    max-width: 100%;
+    overflow:hidden;
+    float: left;
+}
+
+.post-list-date {
+    overflow:hidden;
+    text-align: right;
+}
+
 /* #Media Queries
 ================================================== */
 
