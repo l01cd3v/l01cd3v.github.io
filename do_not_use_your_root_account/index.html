@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="author" content="Loïc" />
+    <!--
+    <meta name="description" content="">
+    -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/svg-icons.css" media="screen">
+    <link rel="alternate" type="application/rss+xml" title="l01cd3v.github.io" href="/feed.xml" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title> Do not use your AWS root account – l01cd3v.github.io </title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+        <header>
+          <h1>l01cd3v.github.io</h1>
+          <h2 class="subtitle">by Loïc</h2>
+          <nav>
+            <a href="/">Blog</a> |
+            <a href="/archives">Archives</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/research">Research</a> |
+            <a href="/about">About</a> 
+          </nav>
+          <hr>
+        </header>
+        <div class="content">
+          <article class="post">
+  <h1>Do not use your AWS root account</h1>
+
+  <div class="date">
+      Published on February 23, 2015
+  </div>
+
+  <div class="entry">
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+<h3>What is the AWS root account?</h3>
+
+<p>The AWS root account is the account that was used -- or created -- when signing
+up with Amazon Web Services. This account has full access to all resources in
+the account and it is not possible to alter this configuration.</p>
+
+<h3>Risks of using the AWS root account</h3>
+
+<p>Using the AWS root account means that there is potential for its compromise.
+In particular, iSEC noticed that AWS customers who use the AWS root account
+tend to do the following:</p>
+
+<ol>
+<li>Share credentials between employees.</li>
+<li>Disable Multi-Factor Authentication (MFA) for convenience.</li>
+</ol>
+
+<p>Shared credentials, aside from increasing the risk of compromise during the
+sharing process, render credential rotation impractical due to the need for the
+newly-generated secret to be known by multiple parties. Sharing the AWS root
+account also undermines any effort towards using IAM and leveraging the
+fine-grained access controls it offers. Finally, shared credentials result in
+loss of the attribution ability, which makes auditing harder and may prevent
+successful investigation.</p>
+
+<h3>AWS Identity and Access Management (IAM)</h3>
+
+<p>AWS IAM allows account administrators to create users for every employee and
+grant them access to a limited set of services, actions, and resources. This
+allows AWS account administrators to apply the principle of least privilege,
+which dictates that a given user should only be able to access the information
+and resources that are necessary for them to perform tasks they are responsible
+for. Additionally, use of IAM allows AWS users to rotate credentials and revoke
+privileges without impacting other employees.</p>
+
+<p>AWS account administrators should create an <em>Administrator</em> IAM group, grant
+administrator privileges to this group, and create individual IAM users for
+each employee in charge of administrating the AWS account. When done, the AWS
+root password should be rotated and stored in a safe manner. Furthermore,
+additional credentials such as access keys and certificates should be deleted.</p>
+
+<h3>Important security consideration about the root account</h3>
+
+<p>AWS users should always enable MFA on their root account, even when the
+password is securely stored; it is important to realize that the password reset
+for the root account process only requires access to the email address
+associated with this account. <strong>This means that, without MFA, your production
+environment is only as secure as an email.</strong></p>
+
+  </div>
+</article>
+
+
+<hr>
+
+        </div>
+        <footer class="footer">
+          
+
+
+
+<a target="_blank" href="http://github.com/l01cd3v"><i class="svg-icon github"></i></a>
+
+<a target="_blank" href="http://linkedin.com/in/loicsimon"><i class="svg-icon linkedin"></i></a>
+
+<a target="_blank" href="/feed.xml"><i class="svg-icon rss"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-56674561-3', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
