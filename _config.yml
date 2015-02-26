@@ -30,7 +30,6 @@ url: https://l01cd3v.github.io
 
 markdown: redcarpet
 highlighter: pygments
-permalink: /:title/
 
 # Exclude these files from your production _site
 exclude:
