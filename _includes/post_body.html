@@ -15,6 +15,10 @@
     {% endif %}
   </div>
 
+  {%if post.layout == 'isec' %}
+    {% include isec.html %}
+  {% endif %}
+
   <div class="entry">
     {% if post %}
       {{ post.content }}
