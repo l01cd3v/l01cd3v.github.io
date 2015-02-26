@@ -1,21 +1,22 @@
 <article class="post">
 
   {% if post %}
+    {% assign tmp = post %}
+  {% else %}
+    {% assign tmp = page %}
+  {% endif %}
+
+  {% if post %}
     <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
   {% else %}
     <h1>{{ page.title }}</h1>
   {% endif %}
 
   <div class="date">
-    Published on
-    {% if post %}
-      {{ post.date | date: "%B %e, %Y" }}
-    {% else %}
-      {{ page.date | date: "%B %e, %Y" }}
-    {% endif %}
+    Published on {{ tmp.date | date: "%B %e, %Y" }}
   </div>
 
-  {%if post.layout == 'isec' %}
+  {% if tmp.tags contains 'iSEC' %}
     {% include isec.html %}
   {% endif %}
 

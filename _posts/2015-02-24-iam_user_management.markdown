@@ -1,9 +1,10 @@
 ---
-layout: isec
+layout: post
 title:  "IAM user management strategy"
 date:   2015-02-24 20:49
 post_author: Loïc Simon
 categories: AWS
+tags: iSEC
 ---
 
 ### Use IAM groups

@@ -1,9 +1,10 @@
 ---
-layout: isec
+layout: post
 title:  "Do not use your AWS root account"
 date:   2015-02-23 08:42
 post_author: Loïc Simon
 categories: AWS
+tags: iSEC
 ---
 
 ### What is the AWS root account?
