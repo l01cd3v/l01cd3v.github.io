@@ -1,5 +1,5 @@
 ---
-layout: not_list
+layout: default
 ---
 
 # Research

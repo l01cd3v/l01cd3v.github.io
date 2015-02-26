@@ -1,0 +1,26 @@
+<article class="post">
+
+  {% if post %}
+    <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+  {% else %}
+    <h1>{{ page.title }}</h1>
+  {% endif %}
+
+  <div class="date">
+    Published on
+    {% if post %}
+      {{ post.date | date: "%B %e, %Y" }}
+    {% else %}
+      {{ page.date | date: "%B %e, %Y" }}
+    {% endif %}
+  </div>
+
+  <div class="entry">
+    {% if post %}
+      {{ post.content }}
+    {% else %}
+      {{ content }}
+    {% endif %}
+  </div>
+
+</article>

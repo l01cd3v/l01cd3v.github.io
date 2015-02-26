@@ -9,6 +9,9 @@ author: Loïc
 # Short bio or description (displayed in the header)
 description: 
 
+# Pagination
+paginate: 5
+
 # Includes an icon in the footer for each username you enter
 footer-links:
   github: l01cd3v
