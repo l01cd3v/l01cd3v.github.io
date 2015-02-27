@@ -85,6 +85,10 @@ header h2 {
   letter-spacing: -1px;
 }
 
+header hr {
+  margin-bottom: 10px;
+}
+
 nav {
   text-align: right;
   margin: -15px 20px 0px 0px;
@@ -211,6 +215,7 @@ hr {
   height: 1px;
   padding-bottom: 1em;
   margin-top: 1em;
+  margin-bottom: 30px;
   line-height: 1px;
   background: transparent url('../images/hr.png') 50% 0 no-repeat;
   border: none;
@@ -325,7 +330,7 @@ dl dt {
 }
 
 footer {
-  padding-top: 0px;
+  padding-top: 10px;
   padding-bottom: 20px;
   margin-top: 0px;
   font-size: 13px;
@@ -338,6 +343,10 @@ footer a {
 }
 footer a:hover {
   color: #444;
+}
+
+footer hr{
+    margin-bottom: 0px;
 }
 
 /* MISC */
