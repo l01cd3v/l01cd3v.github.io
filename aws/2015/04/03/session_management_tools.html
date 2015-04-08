@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="author" content="Loïc" />
+    <!--
+    <meta name="description" content="">
+    -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/svg-icons.css" media="screen">
+    <link rel="alternate" type="application/rss+xml" title="l01cd3v.github.io" href="/feed.xml" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title> Work daily with enforced MFA-protected API access – l01cd3v.github.io </title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+        <header>
+          <h1>l01cd3v.github.io</h1>
+          <h2 class="subtitle">by Loïc</h2>
+          <nav>
+            <a href="/">Blog</a> |
+            <a href="/archives">Archives</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/research">Research</a> |
+            <a href="/about">About</a> 
+          </nav>
+          <hr>
+        </header>
+        <div class="content">
+          <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
+      Work daily with enforced MFA-protected API access
+    
+  </h1>
+
+  <div class="date">
+    Published on April  3, 2015
+  </div>
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <h3>AWS Security Token Service</h3>
+
+<p>The AWS Security Token Service (STS) is the gateway used to create sessions
+when MFA-protected API access is enabled. This service allows IAM users to
+retrieve short-lived credentials (<em>i.e</em> access key ID, secret access key, and
+session token) in exchange for their long-lived credentials (<em>i.e.</em> AWS access
+key ID and secret key) and their current authentication code. When enforcing
+MFA-protected API access, as recommended in the previous <a href="/aws/2015/04/02/use_and_enforce_mfa.html">Use and enforce
+Multi-Factor
+Authentication</a> post,
+IAM users must use these short-lived credentials to access other AWS services.</p>
+
+<h3>Challenges with MFA-protected API access</h3>
+
+<p>When MFA-protected API access is enforced, managing AWS access keys becomes
+challenging because configuration files that contain these credentials must be
+updated regularly. Users must also ensure that they do not lose their
+long-lived credentials when modifying the configuration files to write their
+short-lived credentials. In order to help with this workflow, iSEC wrote and
+released several simple tools in the
+<a href="https://github.com/iSECPartners/AWS-recipes">AWS-recipes</a> repository.</p>
+
+<p>The collection of tools that we will discussed below uses the &quot;<a
+target="_blank"
+href="https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs">new
+and standardized way to manage credentials in the AWS SDKs</a>&quot;, meaning that
+SDKs are expecting to read credentials from the <em>.aws/credentials</em> file under
+the user&#39;s home or  profile directory.</p>
+
+<h3>aws_configure.py</h3>
+
+<p>The
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_configure.py">aws_configure.py</a>
+tool allows users to configure and store their long-lived credentials in a new,
+non-standard, <em>.aws/credentials.no-mfa</em> file. In addition to prompting for the
+AWS access key ID and secret key, this tool also prompts for the MFA device
+serial number because this information must be provided when making calls to
+the STS API. Similar to the AWS CLI and SDKs, it supports profile names. The
+following code snippet is an example of calling this tool to configure a new
+profile called <em>isecpartners</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_configure.py --profile isecpartners
+AWS Access Key ID: AWS_KEY_ID
+AWS Secret Access Key: AWS_SECRET_KEY
+AWS MFA serial: arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+</code></pre></div>
+<p>When looking at the <em>.aws</em> folder, we can see that a <em>credentials.no-mfa</em> file
+exists and that it contains the credentials that were just entered:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ls -l ~/.aws
+total 4
+-rw-r--r-- 1 loic loic 93 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials.no-mfa
+[isecpartners]
+aws_access_key_id = AWS_KEY_ID
+aws_secret_access_key = AWS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+</code></pre></div>
+<p>Now that long-lived credentials are configured, we can use the next tool to
+call the AWS STS API and request short-lived credentials that will be used
+to access other AWS services.</p>
+
+<h3>aws_init_session.py</h3>
+
+<p>The
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py">aws_init_session.py</a>
+tool reads long-lived credentials configured in the .aws/credentials.no-mfa
+file, prompts users for their MFA code, and retrieves STS credentials (AWS
+access key ID, AWS secret key, and session token). The short-lived credentials
+are then saved under the standardized <em>.aws/credentials</em> file to be accessible
+to the AWS CLI and other tools built with the AWS SDKs. The following code
+snippet demonstrates calling this tool to request an STS session token:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_init_session.py --profile isecpartners
+Enter your MFA code: 123456
+Successfully configured the session token for profile &#39;isecpartners&#39;.
+</code></pre></div>
+<p>When looking at the <em>.aws</em> folder, we can see that a standard <em>credentials</em>
+file now exists as well and that it contains the short-lived credentials:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ls -l ~/.aws
+total 8
+-rw-r--r-- 1 loic loic 576 Apr  3 14:14 credentials
+-rw-r--r-- 1 loic loic 179 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials
+[isecpartners]
+aws_access_key_id = STS_KEY_ID
+aws_secret_access_key = STS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+aws_session_token = AWS//////////SESSION_TOKEN
+</code></pre></div>
+<p>Now that the short-lived credentials are configured, we can use the AWS CLI or
+other tools built with the AWS SDKs that read credentials from this standard
+location. When the STS session expires, users just need to re-run the
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py">aws_init_session.py</a>
+tool and the standard <em>credentials</em> file will be updated with new valid
+short-lived credentials.</p>
+
+<h3>Conclusion</h3>
+
+<p>By using this pair of tools to manage their AWS access keys, IAM users can
+easily use the AWS CLI and other tools built with various AWS SDKs in
+environments that have been secured and enforce MFA-protected API access.</p>
+
+    
+  </div>
+
+</article>
+
+
+        </div>
+        <footer class="footer">
+          <hr>
+          
+
+
+
+<a target="_blank" href="http://github.com/l01cd3v"><i class="svg-icon github"></i></a>
+
+<a target="_blank" href="http://linkedin.com/in/loicsimon"><i class="svg-icon linkedin"></i></a>
+
+<a target="_blank" href="/feed.xml"><i class="svg-icon rss"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-56674561-3', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

@@ -7,6 +7,256 @@
     <atom:link href="https://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Work daily with enforced MFA-protected API access</title>
+        <description>&lt;h3&gt;AWS Security Token Service&lt;/h3&gt;
+
+&lt;p&gt;The AWS Security Token Service (STS) is the gateway used to create sessions
+when MFA-protected API access is enabled. This service allows IAM users to
+retrieve short-lived credentials (&lt;em&gt;i.e&lt;/em&gt; access key ID, secret access key, and
+session token) in exchange for their long-lived credentials (&lt;em&gt;i.e.&lt;/em&gt; AWS access
+key ID and secret key) and their current authentication code. When enforcing
+MFA-protected API access, as recommended in the previous &lt;a href=&quot;/aws/2015/04/02/use_and_enforce_mfa.html&quot;&gt;Use and enforce
+Multi-Factor
+Authentication&lt;/a&gt; post,
+IAM users must use these short-lived credentials to access other AWS services.&lt;/p&gt;
+
+&lt;h3&gt;Challenges with MFA-protected API access&lt;/h3&gt;
+
+&lt;p&gt;When MFA-protected API access is enforced, managing AWS access keys becomes
+challenging because configuration files that contain these credentials must be
+updated regularly. Users must also ensure that they do not lose their
+long-lived credentials when modifying the configuration files to write their
+short-lived credentials. In order to help with this workflow, iSEC wrote and
+released several simple tools in the
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-recipes&lt;/a&gt; repository.&lt;/p&gt;
+
+&lt;p&gt;The collection of tools that we will discussed below uses the &amp;quot;&lt;a
+target=&quot;_blank&quot;
+href=&quot;https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs&quot;&gt;new
+and standardized way to manage credentials in the AWS SDKs&lt;/a&gt;&amp;quot;, meaning that
+SDKs are expecting to read credentials from the &lt;em&gt;.aws/credentials&lt;/em&gt; file under
+the user&amp;#39;s home or  profile directory.&lt;/p&gt;
+
+&lt;h3&gt;aws_configure.py&lt;/h3&gt;
+
+&lt;p&gt;The
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_configure.py&quot;&gt;aws_configure.py&lt;/a&gt;
+tool allows users to configure and store their long-lived credentials in a new,
+non-standard, &lt;em&gt;.aws/credentials.no-mfa&lt;/em&gt; file. In addition to prompting for the
+AWS access key ID and secret key, this tool also prompts for the MFA device
+serial number because this information must be provided when making calls to
+the STS API. Similar to the AWS CLI and SDKs, it supports profile names. The
+following code snippet is an example of calling this tool to configure a new
+profile called &lt;em&gt;isecpartners&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_configure.py --profile isecpartners
+AWS Access Key ID: AWS_KEY_ID
+AWS Secret Access Key: AWS_SECRET_KEY
+AWS MFA serial: arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When looking at the &lt;em&gt;.aws&lt;/em&gt; folder, we can see that a &lt;em&gt;credentials.no-mfa&lt;/em&gt; file
+exists and that it contains the credentials that were just entered:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ls -l ~/.aws
+total 4
+-rw-r--r-- 1 loic loic 93 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials.no-mfa
+[isecpartners]
+aws_access_key_id = AWS_KEY_ID
+aws_secret_access_key = AWS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now that long-lived credentials are configured, we can use the next tool to
+call the AWS STS API and request short-lived credentials that will be used
+to access other AWS services.&lt;/p&gt;
+
+&lt;h3&gt;aws_init_session.py&lt;/h3&gt;
+
+&lt;p&gt;The
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py&quot;&gt;aws_init_session.py&lt;/a&gt;
+tool reads long-lived credentials configured in the .aws/credentials.no-mfa
+file, prompts users for their MFA code, and retrieves STS credentials (AWS
+access key ID, AWS secret key, and session token). The short-lived credentials
+are then saved under the standardized &lt;em&gt;.aws/credentials&lt;/em&gt; file to be accessible
+to the AWS CLI and other tools built with the AWS SDKs. The following code
+snippet demonstrates calling this tool to request an STS session token:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_init_session.py --profile isecpartners
+Enter your MFA code: 123456
+Successfully configured the session token for profile &amp;#39;isecpartners&amp;#39;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When looking at the &lt;em&gt;.aws&lt;/em&gt; folder, we can see that a standard &lt;em&gt;credentials&lt;/em&gt;
+file now exists as well and that it contains the short-lived credentials:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ls -l ~/.aws
+total 8
+-rw-r--r-- 1 loic loic 576 Apr  3 14:14 credentials
+-rw-r--r-- 1 loic loic 179 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials
+[isecpartners]
+aws_access_key_id = STS_KEY_ID
+aws_secret_access_key = STS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+aws_session_token = AWS//////////SESSION_TOKEN
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now that the short-lived credentials are configured, we can use the AWS CLI or
+other tools built with the AWS SDKs that read credentials from this standard
+location. When the STS session expires, users just need to re-run the
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py&quot;&gt;aws_init_session.py&lt;/a&gt;
+tool and the standard &lt;em&gt;credentials&lt;/em&gt; file will be updated with new valid
+short-lived credentials.&lt;/p&gt;
+
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;By using this pair of tools to manage their AWS access keys, IAM users can
+easily use the AWS CLI and other tools built with various AWS SDKs in
+environments that have been secured and enforce MFA-protected API access.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 03 Apr 2015 14:10:00 -0700</pubDate>
+        <link>https://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</guid>
+      </item>
+    
+      <item>
+        <title>Use and enforce Multi-Factor Authentication</title>
+        <description>&lt;h3&gt;What is Multi-Factor Authentication?&lt;/h3&gt;
+
+&lt;p&gt;When enabled, Multi-Factor Authentication (MFA) provides strong
+defense-in-depth against compromises of credentials. MFA-enabled users have a
+device that periodically generates a new authentication code (&lt;em&gt;i.e.&lt;/em&gt; one-time
+password); they need to enter the current authentication code along with their
+static credentials (&lt;em&gt;i.e.&lt;/em&gt; username and password) in order to successfully
+authenticate. In addition to supporting MFA when accessing the web console
+(&lt;em&gt;i.e.&lt;/em&gt; password-based authentication), AWS also offers MFA-protected API
+access for users who work with AWS access keys. Through the Security Token
+Service (STS), IAM users can request temporary credentials in exchange for
+their long-lived credentials (&lt;em&gt;i.e.&lt;/em&gt; AWS access key ID and secret key) and
+their current authentication code.&lt;/p&gt;
+
+&lt;h3&gt;Why should one use and enforce MFA?&lt;/h3&gt;
+
+&lt;p&gt;For companies deploying their application in the cloud, a breach that results
+in unauthorized access to the management console &amp;mdash; or API &amp;mdash; is the
+worst-case scenario. While a number of AWS administrators have realized the
+importance of enabling MFA when they access the web console, a limited number
+of them enforce MFA-protected API access. This represents a huge gap in one&amp;#39;s
+security posture because AWS access keys do not come with as many security
+features as passwords do:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AWS administrators can enforce password expiration; this is currently not
+possible for AWS access keys.&lt;/li&gt;
+&lt;li&gt;While it is probably safe to assume that most AWS administrators do not store
+their password in plaintext, most of them use AWS access keys. By design, these
+keys are meant to be stored in plaintext files that are accessed by tools built
+with the various AWS SDKs.&lt;/li&gt;
+&lt;li&gt;A lost password is a forgotten password; a lost key is a key stored in a lost
+file, which may be on an unencrypted storage device (e.g. hard drive or USB Flash
+drive).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Because AWS access keys are long-lived credentials that are stored in plaintext
+files, they are more susceptible to compromise than passwords. It is therefore
+necessary to enable MFA when the AWS API is accessed using these keys and not
+only when users sign in using their passwords.&lt;/p&gt;
+
+&lt;h3&gt;How can one enforce MFA?&lt;/h3&gt;
+
+&lt;p&gt;Unfortunately, at time of writing, AWS does not offer an option to enforce
+MFA-protected API access via a global setting. Therefore, AWS account
+administrators must carefully manage their IAM users and develop a strategy to
+reliably achieve this. In order to enforce MFA-protected API access, iSEC
+recommends the following:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Create a common IAM group that all IAM users belong to, as discussed in the previous &lt;a href=&quot;/aws/2015/02/24/iam_user_management.html&quot;&gt;IAM user management strategy&lt;/a&gt; post.&lt;/li&gt;
+&lt;li&gt;Add the following policy (also available on &lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/IAM-Policies/EnforceMFA-8HourSession.json&quot;&gt;Github&lt;/a&gt;) to enforce MFA for all users who belong to this group.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This policy will enforce MFA regardless of how the IAM user authenticated with
+AWS; it will be effective whether they use password-based or key-based
+authentication.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
+  &amp;quot;Version&amp;quot;: &amp;quot;2012-10-17&amp;quot;,
+  &amp;quot;Statement&amp;quot;: [
+    {
+      &amp;quot;Effect&amp;quot;: &amp;quot;Deny&amp;quot;,
+      &amp;quot;Action&amp;quot;: &amp;quot;*&amp;quot;,
+      &amp;quot;Resource&amp;quot;: &amp;quot;*&amp;quot;,
+      &amp;quot;Condition&amp;quot;: {
+        &amp;quot;Null&amp;quot;:{&amp;quot;aws:MultiFactorAuthAge&amp;quot;:&amp;quot;true&amp;quot;}
+      }
+    },
+    {
+      &amp;quot;Effect&amp;quot;: &amp;quot;Deny&amp;quot;,
+      &amp;quot;Action&amp;quot;: &amp;quot;*&amp;quot;,
+      &amp;quot;Resource&amp;quot;: &amp;quot;*&amp;quot;,
+      &amp;quot;Condition&amp;quot;: {
+        &amp;quot;NumericGreaterThan&amp;quot;:{&amp;quot;aws:MultiFactorAuthAge&amp;quot;:&amp;quot;28800&amp;quot;}
+      }
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The first statement in the above policy denies all actions if the
+&lt;em&gt;aws:MultiFactorAuthAge&lt;/em&gt; key is not present; this key only exists if MFA is
+used [1].&lt;/p&gt;
+
+&lt;p&gt;The second statement verifies that the validation of the MFA code was performed
+less than eight hours ago. Temporary credentials may be valid for a duration
+between fifteen minutes and thirty-six hours [2]. iSEC recommends requiring
+users to initiate a new session at least once a day.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/strong&gt; An &amp;quot;explicit deny&amp;quot; means that, regardless of other policies granted
+to a user, this deny rule will prevail. More information about the IAM policy
+evaluation logic can be found in the AWS documentation at &lt;a
+target=&quot;_blank&quot;
+href=&quot;http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_EvaluationLogic.html&quot;&gt;http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_EvaluationLogic.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Use AWS Scout2 to detect users without MFA&lt;/h3&gt;
+
+&lt;p&gt;The default ruleset used by &lt;a href=&quot;https://github.com/iSECPartners/Scout2&quot;&gt;AWS Scout2&lt;/a&gt; includes a rule that checks for IAM users who have password-based authentication enabled but do not have an MFA device configured. If Scout2 detects IAM users with password-based authentication enabled and no MFA device, it will document a &amp;quot;Lack of MFA&amp;quot; security risk in the IAM menu dropdown, as illustrated in the below screenshot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/aws/awsscout2-user-nomfa-1.png&quot; alt=&quot;Screenshot: IAM menu dropdown with a &amp;quot;Lack of MFA&amp;quot; security risk&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;When clicked, this &amp;quot;Lack of MFA&amp;quot; link filters the list of IAM users to display
+those who have password-based authentication enabled but no MFA device
+configured. The red &amp;quot;No&amp;quot; following &amp;quot;Multi-Factor enabled&amp;quot; indicates a danger
+tied to that particular IAM user.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/aws/awsscout2-user-nomfa-2.png&quot; alt=&quot;Screenshot: Red &amp;quot;No&amp;quot; indicating that this IAM user may access the web console without MFA&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;How can one use MFA with command line tools?&lt;/h3&gt;
+
+&lt;p&gt;Users of the AWS CLI (and other command line tools) have several methods to
+configure their credentials, such as environment variables, configuration
+files, or command line arguments. However, updating these settings on a daily
+basis when MFA-protected API access is enabled is inconvenient. To help
+facilitate this work flow, iSEC has created a set of Python tools and released
+them in the &lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-recipes&lt;/a&gt;
+repository. Further details about these tools will be published in the next
+blog post.&lt;/p&gt;
+
+&lt;p&gt;Additional information about MFA with AWS is available in the AWS
+documentation at &lt;a target=&quot;_blank&quot;
+href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingMFA.html&quot;&gt;
+https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingMFA.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;Enforcing Multi-Factor Authentication for all IAM users is extremely important
+in order to mitigate the risks of credentials compromise (especially the AWS
+access key ID and secret). This aspect of security is commonly overlooked and
+may result in catastrophic damages. By using a strict strategy for management
+of IAM users and the above IAM policy, AWS administrators may significantly
+reduce risks of account compromise.&lt;/p&gt;
+
+&lt;p&gt;[1] &lt;a target=&quot;_blank&quot; href=&quot;http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys&quot;&gt;http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[2] &lt;a target=&quot;_blank&quot; href=&quot;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&quot;&gt;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 02 Apr 2015 14:10:00 -0700</pubDate>
+        <link>https://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</guid>
+      </item>
+    
+      <item>
         <title>IAM user management strategy</title>
         <description>&lt;h3&gt;Use IAM groups&lt;/h3&gt;
 
