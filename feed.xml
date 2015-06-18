@@ -189,10 +189,10 @@ and standardized way to manage credentials in the AWS SDKs&lt;/a&gt;&amp;quot;, 
 SDKs are expecting to read credentials from the &lt;em&gt;.aws/credentials&lt;/em&gt; file under
 the user&amp;#39;s home or  profile directory.&lt;/p&gt;
 
-&lt;h3&gt;aws_configure.py&lt;/h3&gt;
+&lt;h3&gt;aws_recipes_configure_iam.py&lt;/h3&gt;
 
 &lt;p&gt;The
-&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_configure.py&quot;&gt;aws_configure.py&lt;/a&gt;
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_configure_iam.py&quot;&gt;aws_recipes_configure_iam.py&lt;/a&gt;
 tool allows users to configure and store their long-lived credentials in a new,
 non-standard, &lt;em&gt;.aws/credentials.no-mfa&lt;/em&gt; file. In addition to prompting for the
 AWS access key ID and secret key, this tool also prompts for the MFA device
@@ -200,7 +200,7 @@ serial number because this information must be provided when making calls to
 the STS API. Similar to the AWS CLI and SDKs, it supports profile names. The
 following code snippet is an example of calling this tool to configure a new
 profile called &lt;em&gt;isecpartners&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_configure.py --profile isecpartners
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_configure_iam.py --profile isecpartners
 AWS Access Key ID: AWS_KEY_ID
 AWS Secret Access Key: AWS_SECRET_KEY
 AWS MFA serial: arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
@@ -220,17 +220,17 @@ aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
 call the AWS STS API and request short-lived credentials that will be used
 to access other AWS services.&lt;/p&gt;
 
-&lt;h3&gt;aws_init_session.py&lt;/h3&gt;
+&lt;h3&gt;aws_recipes_init_sts_session.py&lt;/h3&gt;
 
 &lt;p&gt;The
-&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py&quot;&gt;aws_init_session.py&lt;/a&gt;
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_init_sts_session.py&quot;&gt;aws_recipes_init_sts_session.py&lt;/a&gt;
 tool reads long-lived credentials configured in the .aws/credentials.no-mfa
 file, prompts users for their MFA code, and retrieves STS credentials (AWS
 access key ID, AWS secret key, and session token). The short-lived credentials
 are then saved under the standardized &lt;em&gt;.aws/credentials&lt;/em&gt; file to be accessible
 to the AWS CLI and other tools built with the AWS SDKs. The following code
 snippet demonstrates calling this tool to request an STS session token:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_init_session.py --profile isecpartners
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_init_sts_session.py --profile isecpartners
 Enter your MFA code: 123456
 Successfully configured the session token for profile &amp;#39;isecpartners&amp;#39;.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -250,7 +250,7 @@ aws_session_token = AWS//////////SESSION_TOKEN
 &lt;p&gt;Now that the short-lived credentials are configured, we can use the AWS CLI or
 other tools built with the AWS SDKs that read credentials from this standard
 location. When the STS session expires, users just need to re-run the
-&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_init_session.py&quot;&gt;aws_init_session.py&lt;/a&gt;
+&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_init_sts_session.py&quot;&gt;aws_recipes_init_sts_session.py&lt;/a&gt;
 tool and the standard &lt;em&gt;credentials&lt;/em&gt; file will be updated with new valid
 short-lived credentials.&lt;/p&gt;
 
