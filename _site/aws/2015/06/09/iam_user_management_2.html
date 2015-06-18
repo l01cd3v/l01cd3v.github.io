@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="author" content="Loïc" />
+    <!--
+    <meta name="description" content="">
+    -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/svg-icons.css" media="screen">
+    <link rel="alternate" type="application/rss+xml" title="l01cd3v.github.io" href="/feed.xml" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title> IAM user management strategy (part 2) – l01cd3v.github.io </title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+        <header>
+          <h1>l01cd3v.github.io</h1>
+          <h2 class="subtitle">by Loïc</h2>
+          <nav>
+            <a href="/">Blog</a> |
+            <a href="/archives">Archives</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/research">Research</a> |
+            <a href="/about">About</a> 
+          </nav>
+          <hr>
+        </header>
+        <div class="content">
+          <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
+      IAM user management strategy (part 2)
+    
+  </h1>
+
+  <div class="date">
+    Published on June  9, 2015
+  </div>
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <p>The previous <a href="/aws/2015/02/24/iam_user_management.html">IAM user management strategy</a> post discussed how
+usage of IAM groups enables AWS administrators to consistently grant privileges
+and enforce a number of security rules (such as MFA-protected API access). This
+blog post will build on this idea by introducing category groups and
+documenting new tools to improve IAM user management.</p>
+
+<h3>Categorize your IAM users</h3>
+
+<p>For a variety of reasons, applying a single set of security rules to all IAM
+users is not always practical. For example, because many applications running
+in AWS predate IAM roles, numerous environments still rely on the existence of
+headless IAM users. Additionally, third parties may be granted access to an AWS
+account for a number of reasons but may not be able to comply with the same set
+of security rules that employees follow. For this reason, NCC recommends using
+category groups to sort IAM users and reliably enforce appropriate security
+measures. For example, one group for all human users and a second for all headless users may be
+created: MFA-protected API access and password management are not relevant for
+headless users. Furthermore, human users may be categorized into several groups
+such as employees and contractors: API access can be restricted to the
+corporate IP range for employees but might not be achievable for contractors.</p>
+
+<p><em>Note 1:</em> The set of category groups should define all types of IAM users that
+may exist in your AWS account and each IAM user should belong to one -- and
+only one -- category group (they may belong to other groups though).</p>
+
+<p><em>Note 2:</em> The common group and category groups should be used to enable enforcing
+security in one&#39;s AWS environment. Policies attached to these groups should be
+carefully reviewed and grant the minimum set of privileges necessary for this
+type of IAM user (<em>e.g.</em> credential management for humans).</p>
+
+<h3>Example of category groups</h3>
+
+<p>The rest of this article describes a number of tools developed and used by
+NCC to help implement this IAM user management strategy. These tools can be found
+in the <a href="https://github.com/iSECPartners/AWS-recipes">AWS-Recipes</a> repository. We will 
+use our test AWS environment as an example, in which we use three category groups in
+addition to the <em>AllUsers</em> common group:</p>
+
+<ol>
+<li><em>AllHumans</em>, the group all employees must belong to.</li>
+<li><em>AllHeadlessUsers</em>, the group all headless IAM users must belong to.</li>
+<li><em>AllMisconfiguredUsers</em>, a placeholder for sample misconfigured users.</li>
+</ol>
+
+<p>We also have an IAM user naming convention that requires usernames to match the
+following schema:</p>
+
+<ol>
+<li>Employees: firstname initial appended with lastname</li>
+<li>Headless user: name of the service prefixed with <em>HeadlessUser-</em></li>
+<li>Misconfigured: description of the misconfiguration prefixed with <em>MisconfiguredUser-</em></li>
+</ol>
+
+<p>Based on these rules, we created a configuration file stored under
+<em>.aws/recipes/isecpartners.json</em>, with <em>isecpartners</em> matching the profile&#39;s
+name. If you do not use profiles, the configuration will be under
+<em>.aws/recipes/default.json</em>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;common_groups&quot;: [ &quot;AllUsers&quot; ],
+    &quot;category_groups&quot;: [
+        &quot;AllHumanUsers&quot;,
+        &quot;AllHeadlessUsers&quot;,
+        &quot;AllMisconfiguredUsers&quot;
+    ],
+    &quot;category_regex&quot;: [
+        &quot;&quot;,
+        &quot;^Headless-(.*)&quot;,
+        &quot;^MisconfiguredUser-(.*)&quot;
+    ],
+    &quot;profile_name&quot;: [ &quot;isecpartners&quot; ]
+}
+</code></pre></div>
+<p>This configuration file declares the name of the common IAM group and two lists
+related to the categorization of IAM users:</p>
+
+<ol>
+<li>A list of category groups.</li>
+<li>A list of regular expressions matching our naming convention.</li>
+</ol>
+
+<p><em>Note 1:</em> If you do not have a naming convention in place to distinguish the
+type of user, remove the <em>category_regex</em> attribute from your configuration
+file.</p>
+
+<p><em>Note 2:</em> If a regular expression is only applicable to a subset of category
+groups, you must ensure that both lists have the same length and use an empty
+string for groups that cannot be automatically associated (see the
+<em>AllHumanUsers</em> group in our example).</p>
+
+<p><em>Note 3:</em> Use of a configuration file is not necessary as all values may be
+passed as command line arguments. If a configuration file exists and a value is
+passed as an argument, the value passed via the command line will be used.</p>
+
+<h3>Create your default groups with <em><a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_create_default_groups.py">aws_iam_create_default_groups.py</a></em></h3>
+
+<p>The purpose of this tool is to create IAM groups whose name matches the common
+and category groups specified in the above configuration file. Running the
+following command results in four new groups being created if they did not
+already exist.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_iam_create_default_groups.py --profile isecpartners
+</code></pre></div>
+<h3>(Automatically) sort IAM users with <em><a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_sort_users.py">aws_iam_sort_users.py</a>.</em></h3>
+
+<p>This tool iterates through all IAM users and attempts to automatically detect
+the IAM groups each user should belong to. For convenience, we recommend adding
+the following to your AWS recipes configuration files:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;aws_sort_users.py&quot;: {
+    &quot;create_groups&quot;: false,
+},
+&quot;force_common_group&quot;: true
+</code></pre></div>
+<p>This specifies default values for additional arguments to be set when running
+<em>aws_iam_sort_users.py</em>. Specifically, with these values, running this tool
+will automatically add all IAM users to the common group <em>AllUsers</em> and will
+not attempt to create the default groups (not necessary as we already did
+this). Additionally, this tool checks that each IAM user belongs to one of the
+category groups. If this is not the case and the username matches a regular
+expression, the user is automatically added to the matching category group. Otherwise, a
+multi-choice prompt appears to allow manual selection of the appropriate
+category group.</p>
+
+<h3>Additional advantages of configuration files</h3>
+
+<p>Besides helping with simplification of these tools&#39; usage, this new AWS-recipe
+configuration file can be used across tools, allowing for more consistent
+rule enforcement. For example, the
+<em><a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_create_user.py">aws_iam_create_user.py</a>.</em>
+tool uses this configuration file and applies the same business logic to add
+users to the common group and appropriate category group at user creation time. In
+our test environment, for example, running the following command automatically
+added the new user to the <em>MisconfiguredUser</em> group:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
+Creating user MisconfiguredUser-BlogPostExample...
+Save unencrypted value (y/n)? y
+User &#39;MisconfiguredUser-BlogPostExample&#39; does not belong to the mandatory common group &#39;AllUsers&#39;. Do you want to remediate this now (y/n)? y
+User &#39;MisconfiguredUser-BlogPostExample&#39; does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
+Enabling MFA for user MisconfiguredUser-BlogPostExample...
+</code></pre></div>
+<h3>Conclusion</h3>
+
+<p>While efficient and reliable management of IAM users can be challenging, using
+the right strategy and tools significantly simplifies this process. Creation
+and use of a naming convention for IAM users enables
+automated user management and enforcement of security rules.</p>
+
+    
+  </div>
+
+</article>
+
+
+        </div>
+        <footer class="footer">
+          <hr>
+          
+
+
+
+<a target="_blank" href="http://github.com/l01cd3v"><i class="svg-icon github"></i></a>
+
+<a target="_blank" href="http://linkedin.com/in/loicsimon"><i class="svg-icon linkedin"></i></a>
+
+<a target="_blank" href="/feed.xml"><i class="svg-icon rss"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-56674561-3', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

@@ -7,6 +7,158 @@
     <atom:link href="https://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>IAM user management strategy (part 2)</title>
+        <description>&lt;p&gt;The previous &lt;a href=&quot;/aws/2015/02/24/iam_user_management.html&quot;&gt;IAM user management strategy&lt;/a&gt; post discussed how
+usage of IAM groups enables AWS administrators to consistently grant privileges
+and enforce a number of security rules (such as MFA-protected API access). This
+blog post will build on this idea by introducing category groups and
+documenting new tools to improve IAM user management.&lt;/p&gt;
+
+&lt;h3&gt;Categorize your IAM users&lt;/h3&gt;
+
+&lt;p&gt;For a variety of reasons, applying a single set of security rules to all IAM
+users is not always practical. For example, because many applications running
+in AWS predate IAM roles, numerous environments still rely on the existence of
+headless IAM users. Additionally, third parties may be granted access to an AWS
+account for a number of reasons but may not be able to comply with the same set
+of security rules that employees follow. For this reason, NCC recommends using
+category groups to sort IAM users and reliably enforce appropriate security
+measures. For example, one group for all human users and a second for all headless users may be
+created: MFA-protected API access and password management are not relevant for
+headless users. Furthermore, human users may be categorized into several groups
+such as employees and contractors: API access can be restricted to the
+corporate IP range for employees but might not be achievable for contractors.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note 1:&lt;/em&gt; The set of category groups should define all types of IAM users that
+may exist in your AWS account and each IAM user should belong to one -- and
+only one -- category group (they may belong to other groups though).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note 2:&lt;/em&gt; The common group and category groups should be used to enable enforcing
+security in one&amp;#39;s AWS environment. Policies attached to these groups should be
+carefully reviewed and grant the minimum set of privileges necessary for this
+type of IAM user (&lt;em&gt;e.g.&lt;/em&gt; credential management for humans).&lt;/p&gt;
+
+&lt;h3&gt;Example of category groups&lt;/h3&gt;
+
+&lt;p&gt;The rest of this article describes a number of tools developed and used by
+NCC to help implement this IAM user management strategy. These tools can be found
+in the &lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-Recipes&lt;/a&gt; repository. We will 
+use our test AWS environment as an example, in which we use three category groups in
+addition to the &lt;em&gt;AllUsers&lt;/em&gt; common group:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;AllHumans&lt;/em&gt;, the group all employees must belong to.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;AllHeadlessUsers&lt;/em&gt;, the group all headless IAM users must belong to.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;AllMisconfiguredUsers&lt;/em&gt;, a placeholder for sample misconfigured users.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We also have an IAM user naming convention that requires usernames to match the
+following schema:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Employees: firstname initial appended with lastname&lt;/li&gt;
+&lt;li&gt;Headless user: name of the service prefixed with &lt;em&gt;HeadlessUser-&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Misconfigured: description of the misconfiguration prefixed with &lt;em&gt;MisconfiguredUser-&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Based on these rules, we created a configuration file stored under
+&lt;em&gt;.aws/recipes/isecpartners.json&lt;/em&gt;, with &lt;em&gt;isecpartners&lt;/em&gt; matching the profile&amp;#39;s
+name. If you do not use profiles, the configuration will be under
+&lt;em&gt;.aws/recipes/default.json&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
+    &amp;quot;common_groups&amp;quot;: [ &amp;quot;AllUsers&amp;quot; ],
+    &amp;quot;category_groups&amp;quot;: [
+        &amp;quot;AllHumanUsers&amp;quot;,
+        &amp;quot;AllHeadlessUsers&amp;quot;,
+        &amp;quot;AllMisconfiguredUsers&amp;quot;
+    ],
+    &amp;quot;category_regex&amp;quot;: [
+        &amp;quot;&amp;quot;,
+        &amp;quot;^Headless-(.*)&amp;quot;,
+        &amp;quot;^MisconfiguredUser-(.*)&amp;quot;
+    ],
+    &amp;quot;profile_name&amp;quot;: [ &amp;quot;isecpartners&amp;quot; ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This configuration file declares the name of the common IAM group and two lists
+related to the categorization of IAM users:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;A list of category groups.&lt;/li&gt;
+&lt;li&gt;A list of regular expressions matching our naming convention.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;Note 1:&lt;/em&gt; If you do not have a naming convention in place to distinguish the
+type of user, remove the &lt;em&gt;category_regex&lt;/em&gt; attribute from your configuration
+file.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note 2:&lt;/em&gt; If a regular expression is only applicable to a subset of category
+groups, you must ensure that both lists have the same length and use an empty
+string for groups that cannot be automatically associated (see the
+&lt;em&gt;AllHumanUsers&lt;/em&gt; group in our example).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note 3:&lt;/em&gt; Use of a configuration file is not necessary as all values may be
+passed as command line arguments. If a configuration file exists and a value is
+passed as an argument, the value passed via the command line will be used.&lt;/p&gt;
+
+&lt;h3&gt;Create your default groups with &lt;em&gt;&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_create_default_groups.py&quot;&gt;aws_iam_create_default_groups.py&lt;/a&gt;&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;The purpose of this tool is to create IAM groups whose name matches the common
+and category groups specified in the above configuration file. Running the
+following command results in four new groups being created if they did not
+already exist.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./aws_iam_create_default_groups.py --profile isecpartners
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;(Automatically) sort IAM users with &lt;em&gt;&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_sort_users.py&quot;&gt;aws_iam_sort_users.py&lt;/a&gt;.&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;This tool iterates through all IAM users and attempts to automatically detect
+the IAM groups each user should belong to. For convenience, we recommend adding
+the following to your AWS recipes configuration files:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;quot;aws_sort_users.py&amp;quot;: {
+    &amp;quot;create_groups&amp;quot;: false,
+},
+&amp;quot;force_common_group&amp;quot;: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This specifies default values for additional arguments to be set when running
+&lt;em&gt;aws_iam_sort_users.py&lt;/em&gt;. Specifically, with these values, running this tool
+will automatically add all IAM users to the common group &lt;em&gt;AllUsers&lt;/em&gt; and will
+not attempt to create the default groups (not necessary as we already did
+this). Additionally, this tool checks that each IAM user belongs to one of the
+category groups. If this is not the case and the username matches a regular
+expression, the user is automatically added to the matching category group. Otherwise, a
+multi-choice prompt appears to allow manual selection of the appropriate
+category group.&lt;/p&gt;
+
+&lt;h3&gt;Additional advantages of configuration files&lt;/h3&gt;
+
+&lt;p&gt;Besides helping with simplification of these tools&amp;#39; usage, this new AWS-recipe
+configuration file can be used across tools, allowing for more consistent
+rule enforcement. For example, the
+&lt;em&gt;&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_create_user.py&quot;&gt;aws_iam_create_user.py&lt;/a&gt;.&lt;/em&gt;
+tool uses this configuration file and applies the same business logic to add
+users to the common group and appropriate category group at user creation time. In
+our test environment, for example, running the following command automatically
+added the new user to the &lt;em&gt;MisconfiguredUser&lt;/em&gt; group:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
+Creating user MisconfiguredUser-BlogPostExample...
+Save unencrypted value (y/n)? y
+User &amp;#39;MisconfiguredUser-BlogPostExample&amp;#39; does not belong to the mandatory common group &amp;#39;AllUsers&amp;#39;. Do you want to remediate this now (y/n)? y
+User &amp;#39;MisconfiguredUser-BlogPostExample&amp;#39; does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
+Enabling MFA for user MisconfiguredUser-BlogPostExample...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;While efficient and reliable management of IAM users can be challenging, using
+the right strategy and tools significantly simplifies this process. Creation
+and use of a naming convention for IAM users enables
+automated user management and enforcement of security rules.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 09 Jun 2015 09:20:00 -0700</pubDate>
+        <link>https://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</guid>
+      </item>
+    
+      <item>
         <title>Work daily with enforced MFA-protected API access</title>
         <description>&lt;h3&gt;AWS Security Token Service&lt;/h3&gt;
 
