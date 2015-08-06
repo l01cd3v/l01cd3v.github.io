@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="author" content="Loïc" />
+    <!--
+    <meta name="description" content="">
+    -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/svg-icons.css" media="screen">
+    <link rel="alternate" type="application/rss+xml" title="l01cd3v.github.io" href="/feed.xml" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title> Introducing opinel: Scout2's favorite tool – l01cd3v.github.io </title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+        <header>
+          <h1>l01cd3v.github.io</h1>
+          <h2 class="subtitle">by Loïc</h2>
+          <nav>
+            <a href="/">Blog</a> |
+            <a href="/archives">Archives</a> |
+            <a href="/projects">Projects</a> |
+            <a href="/research">Research</a> |
+            <a href="/about">About</a> 
+          </nav>
+          <hr>
+        </header>
+        <div class="content">
+          <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
+      Introducing opinel: Scout2's favorite tool
+    
+  </h1>
+
+  <div class="date">
+    Published on August  3, 2015
+  </div>
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <p>With boto3 being stable and generally available<sup><a href="https://aws.amazon.com/about-aws/whats-new/2015/06/boto3-aws-sdk-for-python-version-3-is-now-generally-available">1</a></sup>, I took the opportunity
+to migrate Scout2 and AWS-recipes to boto3. As part of that migration
+effort, I decided to publish the formerly-known-as AWSUtils repository -- used
+by Scout2 and AWS-recipes -- as a python package required by these tools,
+rather than requiring users to work with Git submodules. I&#39;ve also added more
+flexibility when working with MFA-protected API calls and improved versioning
+across the project.</p>
+
+<h3>opinel</h3>
+
+<p>To avoid name conflicts, I decided to rename the shared AWSUtils code to a
+less misleading name: opinel. The opinel package is published on <a href="https://pypi.python.org/pypi/opinel">PyPI</a>, and thus can
+be installed using pip and easy_install. The corresponding source code is still
+open-sourced on Github at <a href="https://github.com/iSECPartners/opinel">https://github.com/iSECPartners/opinel</a>.
+As a result, Scout2 and AWS-recipes have been modified to list opinel as a
+requirement, which significantly simplifies installation and management of this
+shared code.</p>
+
+<h3>Support for Python 2.7 and 3.x</h3>
+
+<p>Because boto3 supports both Python2 and Python3, I decided to make sure that
+the code built on top of that package has similar properties. As a result,
+the latest versions of Scout2 and AWS-recipes support Python 2.7 and 3.x.
+Note that opinel will <strong>NOT</strong> work with Python 2.6.</p>
+
+<h3>Modification of the MFA workflow</h3>
+
+<p>As requested by a user of AWS-recipes<sup><a href="https://github.com/iSECPartners/opinel/issues/4">2</a></sup>, I modified the workflow when
+using MFA-protected API access to no longer store the long-lived credentials
+in a separate file. As a result, the <em>.aws/credentials.no-mfa</em> file is no
+longer supported and all credentials are stored in the standard AWS credentials
+file under <em>.aws/credentials</em>. Usage of the existing tools remains unchanged,
+but the long-lived credentials are now accessible via a new profile name:
+<em>profile_name-nomfa</em>. This allows users to work with both STS and long-lived
+credentials if need be.</p>
+
+<p>If you already had configured your environment to work with MFA-protected API
+access, you will need to copy your long-lived credentials back to the
+<em>.aws/credentials</em> file. This can be done with a simple command such as the
+following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cat ~/.aws/credentials.no-mfa | sed -e &#39;s/]$/-nomfa]/g&#39; &gt;&gt; ~/.aws/credentials
+</code></pre></div>
+<h3>Support to use assumed-role credentials</h3>
+
+<p>With this new workflow implemented, I created a new recipe that allows
+configuration of role-credentials in the <em>.aws/credentials</em> file. When the following
+command is run, it uses the credentials associated with the <em>isecpartners</em>
+profile to request role credentials for the IAM-Scout2 role. The role
+credentials are then written in the <em>.aws/credentials</em> file in a new profile
+named <em>isecpartners-Scout2</em>, which is the profile name appended by the role
+session name.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
+</code></pre></div>
+<p>Users can then use their favorite tools that support profiles. For example,
+Scout2 could be run with the following command line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./Scout2.py --profile isecpartners-Scout2
+</code></pre></div>
+<p>Note that this recipe supports MFA if the assumed role requires it:</p>
+
+<ul>
+<li>If you never configured your environment to work with MFA, you can provide your MFA serial number (ARN) and current token code as arguments.</li>
+<li>If you already configured your environment to work with MFA and stored your MFA serial in the <em>.aws/credentials</em> file, you just need to pass your token code as an additional argument.</li>
+<li>Finally, if you already initiated an STS session, you do not need to provide a new token code and can run the command as above.</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>With the release of opinel, I hope to simplify distribution and management of
+the code shared between Scout2 and AWS-recipes. Additionally, I
+significantly modified the workflow and credentials storage when working with
+MFA-protected API calls, which allows users to use both their long-lived and STS
+credentials.</p>
+
+    
+  </div>
+
+</article>
+
+
+        </div>
+        <footer class="footer">
+          <hr>
+          
+
+
+
+<a target="_blank" href="http://github.com/l01cd3v"><i class="svg-icon github"></i></a>
+
+<a target="_blank" href="http://linkedin.com/in/loicsimon"><i class="svg-icon linkedin"></i></a>
+
+<a target="_blank" href="/feed.xml"><i class="svg-icon rss"></i></a>
+
+
+
+        </footer>
+      </div>
+    </div>
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-56674561-3', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
