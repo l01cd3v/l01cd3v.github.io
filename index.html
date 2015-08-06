@@ -49,6 +49,116 @@
 
   <h1>
     
+      <a href="/aws/2015/08/03/boto3_opinel_scout_recipes.html">Introducing opinel: Scout2's favorite tool</a>
+    
+  </h1>
+
+  <div class="date">
+    Published on August  3, 2015
+  </div>
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <p>With boto3 being stable and generally available<sup><a href="https://aws.amazon.com/about-aws/whats-new/2015/06/boto3-aws-sdk-for-python-version-3-is-now-generally-available">1</a></sup>, I took the opportunity
+to migrate Scout2 and AWS-recipes to boto3. As part of that migration
+effort, I decided to publish the formerly-known-as AWSUtils repository -- used
+by Scout2 and AWS-recipes -- as a python package required by these tools,
+rather than requiring users to work with Git submodules. I&#39;ve also added more
+flexibility when working with MFA-protected API calls and improved versioning
+across the project.</p>
+
+<h3>opinel</h3>
+
+<p>To avoid name conflicts, I decided to rename the shared AWSUtils code to a
+less misleading name: opinel. The opinel package is published on <a href="https://pypi.python.org/pypi/opinel">PyPI</a>, and thus can
+be installed using pip and easy_install. The corresponding source code is still
+open-sourced on Github at <a href="https://github.com/iSECPartners/opinel">https://github.com/iSECPartners/opinel</a>.
+As a result, Scout2 and AWS-recipes have been modified to list opinel as a
+requirement, which significantly simplifies installation and management of this
+shared code.</p>
+
+<h3>Support for Python 2.7 and 3.x</h3>
+
+<p>Because boto3 supports both Python2 and Python3, I decided to make sure that
+the code built on top of that package has similar properties. As a result,
+the latest versions of Scout2 and AWS-recipes support Python 2.7 and 3.x.
+Note that opinel will <strong>NOT</strong> work with Python 2.6.</p>
+
+<h3>Modification of the MFA workflow</h3>
+
+<p>As requested by a user of AWS-recipes<sup><a href="https://github.com/iSECPartners/opinel/issues/4">2</a></sup>, I modified the workflow when
+using MFA-protected API access to no longer store the long-lived credentials
+in a separate file. As a result, the <em>.aws/credentials.no-mfa</em> file is no
+longer supported and all credentials are stored in the standard AWS credentials
+file under <em>.aws/credentials</em>. Usage of the existing tools remains unchanged,
+but the long-lived credentials are now accessible via a new profile name:
+<em>profile_name-nomfa</em>. This allows users to work with both STS and long-lived
+credentials if need be.</p>
+
+<p>If you already had configured your environment to work with MFA-protected API
+access, you will need to copy your long-lived credentials back to the
+<em>.aws/credentials</em> file. This can be done with a simple command such as the
+following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cat ~/.aws/credentials.no-mfa | sed -e &#39;s/]$/-nomfa]/g&#39; &gt;&gt; ~/.aws/credentials
+</code></pre></div>
+<h3>Support to use assumed-role credentials</h3>
+
+<p>With this new workflow implemented, I created a new recipe that allows
+configuration of role-credentials in the <em>.aws/credentials</em> file. When the following
+command is run, it uses the credentials associated with the <em>isecpartners</em>
+profile to request role credentials for the IAM-Scout2 role. The role
+credentials are then written in the <em>.aws/credentials</em> file in a new profile
+named <em>isecpartners-Scout2</em>, which is the profile name appended by the role
+session name.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
+</code></pre></div>
+<p>Users can then use their favorite tools that support profiles. For example,
+Scout2 could be run with the following command line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./Scout2.py --profile isecpartners-Scout2
+</code></pre></div>
+<p>Note that this recipe supports MFA if the assumed role requires it:</p>
+
+<ul>
+<li>If you never configured your environment to work with MFA, you can provide your MFA serial number (ARN) and current token code as arguments.</li>
+<li>If you already configured your environment to work with MFA and stored your MFA serial in the <em>.aws/credentials</em> file, you just need to pass your token code as an additional argument.</li>
+<li>Finally, if you already initiated an STS session, you do not need to provide a new token code and can run the command as above.</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>With the release of opinel, I hope to simplify distribution and management of
+the code shared between Scout2 and AWS-recipes. Additionally, I
+significantly modified the workflow and credentials storage when working with
+MFA-protected API calls, which allows users to use both their long-lived and STS
+credentials.</p>
+
+    
+  </div>
+
+</article>
+
+
+    
+      <hr>
+    
+
+
+
+    <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
       <a href="/aws/2015/06/09/iam_user_management_2.html">IAM user management strategy (part 2)</a>
     
   </h1>
@@ -688,92 +798,6 @@ warning about this issue.</p>
 maintaining a secure AWS environment. When followed, the above recommendations
 should enable AWS administrators to manage IAM users with improved efficiency
 and lower the chances of overly privileged users to exist.</p>
-
-    
-  </div>
-
-</article>
-
-
-    
-      <hr>
-    
-
-
-
-    <article class="post">
-
-  
-    
-  
-
-  <h1>
-    
-      <a href="/aws/2015/02/23/do_not_use_your_root_account.html">Do not use your AWS root account</a>
-    
-  </h1>
-
-  <div class="date">
-    Published on February 23, 2015
-  </div>
-
-  
-    <h6>
-    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
-</h6>
-
-  
-
-  <div class="entry">
-    
-      <h3>What is the AWS root account?</h3>
-
-<p>The AWS root account is the account that was used -- or created -- when signing
-up with Amazon Web Services. This account has full access to all resources in
-the account and it is not possible to alter this configuration.</p>
-
-<h3>Risks of using the AWS root account</h3>
-
-<p>Using the AWS root account means that there is potential for its compromise.
-In particular, iSEC noticed that AWS customers who use the AWS root account
-tend to do the following:</p>
-
-<ol>
-<li>Share credentials between employees.</li>
-<li>Disable Multi-Factor Authentication (MFA) for convenience.</li>
-</ol>
-
-<p>Shared credentials, aside from increasing the risk of compromise during the
-sharing process, render credential rotation impractical due to the need for the
-newly-generated secret to be known by multiple parties. Sharing the AWS root
-account also undermines any effort towards using IAM and leveraging the
-fine-grained access controls it offers. Finally, shared credentials result in
-loss of the attribution ability, which makes auditing harder and may prevent
-successful investigation.</p>
-
-<h3>AWS Identity and Access Management (IAM)</h3>
-
-<p>AWS IAM allows account administrators to create users for every employee and
-grant them access to a limited set of services, actions, and resources. This
-allows AWS account administrators to apply the principle of least privilege,
-which dictates that a given user should only be able to access the information
-and resources that are necessary for them to perform tasks they are responsible
-for. Additionally, use of IAM allows AWS users to rotate credentials and revoke
-privileges without impacting other employees.</p>
-
-<p>AWS account administrators should create an <em>Administrator</em> IAM group, grant
-administrator privileges to this group, and create individual IAM users for
-each employee in charge of administrating the AWS account. When done, the AWS
-root password should be rotated and stored in a safe manner. Furthermore,
-additional credentials such as access keys and certificates should be deleted.</p>
-
-<h3>Important security consideration about the root account</h3>
-
-<p>AWS users should always enable MFA on their root account, even when the
-password is securely stored; it is important to realize that the password reset
-for the root account process only requires access to the email address
-associated with this account. <strong>This means that, without MFA, your production
-environment is only as secure as an email.</strong></p>
 
     
   </div>
