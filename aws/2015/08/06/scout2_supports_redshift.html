@@ -17,7 +17,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title> Blog Posts – l01cd3v.github.io </title>
+    <title> Redshift support added in Scout2 – l01cd3v.github.io </title>
   </head>
 
   <body>
@@ -36,44 +36,74 @@
           <hr>
         </header>
         <div class="content">
-          <h1 class="category">Blog Posts</h1>
+          <article class="post">
 
-<nav>
-  <a href="/archives">History</a> |
-  <a href="/categories">Categories</a>
-</nav>
-<div style="margin-bottom: 15px"></div>
+  
+    
+  
 
-<div class="post-list">
+  <h1>
+    
+      Redshift support added in Scout2
+    
+  </h1>
 
-  <div class="post-list-title"><a href="/aws/2015/08/06/scout2_supports_redshift.html">Redshift support added in Scout2</a></div>
-  <div class="post-list-date">06 Aug 2015</div>
+  <div class="date">
+    Published on August  6, 2015
+  </div>
 
-  <div class="post-list-title"><a href="/aws/2015/08/03/boto3_opinel_scout_recipes.html">Introducing opinel: Scout2's favorite tool</a></div>
-  <div class="post-list-date">03 Aug 2015</div>
+  
 
-  <div class="post-list-title"><a href="/aws/2015/06/09/iam_user_management_2.html">IAM user management strategy (part 2)</a></div>
-  <div class="post-list-date">09 Jun 2015</div>
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://www.nccgroup.trust/us/blog">NCC Group's blog</a>]
+</h6>
 
-  <div class="post-list-title"><a href="/aws/2015/04/03/session_management_tools.html">Work daily with enforced MFA-protected API access</a></div>
-  <div class="post-list-date">03 Apr 2015</div>
+  
 
-  <div class="post-list-title"><a href="/aws/2015/04/02/use_and_enforce_mfa.html">Use and enforce Multi-Factor Authentication</a></div>
-  <div class="post-list-date">02 Apr 2015</div>
+  <div class="entry">
+    
+      <p>Today, I am excited to announce that support for Redshift was added in
+Scout2. By default, Scout2 will fetch information about your Redshift clusters,
+cluster parameter groups, and cluster security groups if you still use
+EC2-Classic. At this stage, Scout2 comes with six Redshift security rules that
+are enabled by default:</p>
 
-  <div class="post-list-title"><a href="/aws/2015/02/24/iam_user_management.html">IAM user management strategy</a></div>
-  <div class="post-list-date">24 Feb 2015</div>
+<ul>
+<li>Clusters
 
-  <div class="post-list-title"><a href="/aws/2015/02/23/do_not_use_your_root_account.html">Do not use your AWS root account</a></div>
-  <div class="post-list-date">23 Feb 2015</div>
+<ul>
+<li>Check whether version upgrade is enabled</li>
+<li>Check whether the cluster is publicly accessible</li>
+<li>Check whether database encryption is enabled</li>
+</ul></li>
+<li>Cluster parameter groups
 
-  <div class="post-list-title"><a href="/aws/2015/02/22/announcing_the_aws_blog_post_series.html">Announcing the AWS blog post series</a></div>
-  <div class="post-list-date">22 Feb 2015</div>
+<ul>
+<li>Check whether SSL/TLS is required to access the database</li>
+<li>Check whether user activity logging is enabled</li>
+</ul></li>
+<li>Cluster security groups (EC2-classic)
 
-  <div class="post-list-title"><a href="/2015/02/21/hello_world.html">Intro</a></div>
-  <div class="post-list-date">21 Feb 2015</div>
+<ul>
+<li>Check whether the security group allows access to all IP addresses (0.0.0.0/0)</li>
+</ul></li>
+</ul>
 
-</div>
+<p>Scout2 was first released over a year and a half ago, and proved to be extremely
+helpful when performing AWS configuration reviews. While
+Scout2&#39;s initial release only supported three services (IAM, EC2, and S3) and
+included thirteen security checks, the tool rapidly grew to add support for RDS
+and CloudTrail. Furthermore, the tool now offers over fifty tests throughout
+these five supported services. I hope that support for Redshift will bring
+value to users of Scout2, and welcome feature requests, bug reports, and
+recommendations on Github at
+<a href="https://github.com/iSECPartners/Scout2/issues">https://github.com/iSECPartners/Scout2/issues</a>.</p>
+
+    
+  </div>
+
+</article>
 
 
         </div>

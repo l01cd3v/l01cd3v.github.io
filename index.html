@@ -49,6 +49,82 @@
 
   <h1>
     
+      <a href="/aws/2015/08/06/scout2_supports_redshift.html">Redshift support added in Scout2</a>
+    
+  </h1>
+
+  <div class="date">
+    Published on August  6, 2015
+  </div>
+
+  
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://www.nccgroup.trust/us/blog">NCC Group's blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <p>Today, I am excited to announce that support for Redshift was added in
+Scout2. By default, Scout2 will fetch information about your Redshift clusters,
+cluster parameter groups, and cluster security groups if you still use
+EC2-Classic. At this stage, Scout2 comes with six Redshift security rules that
+are enabled by default:</p>
+
+<ul>
+<li>Clusters
+
+<ul>
+<li>Check whether version upgrade is enabled</li>
+<li>Check whether the cluster is publicly accessible</li>
+<li>Check whether database encryption is enabled</li>
+</ul></li>
+<li>Cluster parameter groups
+
+<ul>
+<li>Check whether SSL/TLS is required to access the database</li>
+<li>Check whether user activity logging is enabled</li>
+</ul></li>
+<li>Cluster security groups (EC2-classic)
+
+<ul>
+<li>Check whether the security group allows access to all IP addresses (0.0.0.0/0)</li>
+</ul></li>
+</ul>
+
+<p>Scout2 was first released over a year and a half ago, and proved to be extremely
+helpful when performing AWS configuration reviews. While
+Scout2&#39;s initial release only supported three services (IAM, EC2, and S3) and
+included thirteen security checks, the tool rapidly grew to add support for RDS
+and CloudTrail. Furthermore, the tool now offers over fifty tests throughout
+these five supported services. I hope that support for Redshift will bring
+value to users of Scout2, and welcome feature requests, bug reports, and
+recommendations on Github at
+<a href="https://github.com/iSECPartners/Scout2/issues">https://github.com/iSECPartners/Scout2/issues</a>.</p>
+
+    
+  </div>
+
+</article>
+
+
+    
+      <hr>
+    
+
+
+
+    <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
       <a href="/aws/2015/08/03/boto3_opinel_scout_recipes.html">Introducing opinel: Scout2's favorite tool</a>
     
   </h1>
@@ -61,6 +137,8 @@
     <h6>
     [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
 </h6>
+
+  
 
   
 
@@ -171,6 +249,8 @@ credentials.</p>
     <h6>
     [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
 </h6>
+
+  
 
   
 
@@ -356,6 +436,8 @@ automated user management and enforcement of security rules.</p>
 
   
 
+  
+
   <div class="entry">
     
       <h3>AWS Security Token Service</h3>
@@ -490,6 +572,8 @@ environments that have been secured and enforce MFA-protected API access.</p>
     <h6>
     [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
 </h6>
+
+  
 
   
 
@@ -630,174 +714,6 @@ reduce risks of account compromise.</p>
 <p>[1] <a target="_blank" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys">http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys</a></p>
 
 <p>[2] <a target="_blank" href="http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html">http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html</a></p>
-
-    
-  </div>
-
-</article>
-
-
-    
-      <hr>
-    
-
-
-
-    <article class="post">
-
-  
-    
-  
-
-  <h1>
-    
-      <a href="/aws/2015/02/24/iam_user_management.html">IAM user management strategy</a>
-    
-  </h1>
-
-  <div class="date">
-    Published on February 24, 2015
-  </div>
-
-  
-    <h6>
-    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
-</h6>
-
-  
-
-  <div class="entry">
-    
-      <h3>Use IAM groups</h3>
-
-<p>When granting privileges to IAM users, AWS account administrators should avoid
-use of user-specific policies. Instead, create groups whose name explicitly
-defines the members&#39; job functions or responsibilities (<em>e.g.</em> AWS
-Administrators, Operations, Developers, Accountants), and define the
-permissions granted within group policies. Doing so will simplify the
-permissions management process as changes in group policies apply to all
-members.</p>
-
-<p>When performing AWS configuration reviews, iSEC often discovers IAM users
-whose privileges have been granted via a combination of IAM user and IAM group
-policies. It is not uncommon to see IAM users who are granted full
-administrator privileges in a redundant manner, via both user and group
-policies. Such configuration creates an avenue for configuration mistakes, as
-another administrator may believe that terminating an IAM user&#39;s membership to
-the admin group is sufficient. Therefore, banning use of IAM user policies
-will result in making one&#39;s AWS environment less error-prone.</p>
-
-<p><strong><em>Note</em></strong>: It is on purpose that iSEC recommends using IAM group names that
-reflect a job title or responsibility. IAM users who do not fit in such groups
-(<em>e.g.</em> headless users) should not exist. Instead, AWS account administrators
-should investigate use of IAM roles for EC2. Further details will be discussed
-in an upcoming blog post.</p>
-
-<h3>Create a common IAM group to apply generic policies</h3>
-
-<p>Because a number of policies must be applied to all users, iSEC recommends that
-AWS account administrators create an IAM group that all IAM users belong to.
-Doing so will allow AWS account administrators to consistently grant privileges
-and enforce a number of rules.</p>
-
-<p><strong><em>Note</em></strong>: It is important that all IAM users belong to this common IAM group
-to ensure that policies are consistently applied. Failure to do so will create
-gaps in one&#39;s AWS environment security posture.</p>
-
-<h3>Authorize IAM users to manage their credentials</h3>
-
-<p>To begin with, iSEC recommends that AWS account administrators allow all of
-their IAM users to manage their credentials, and only theirs. With all IAM
-users belonging to the common IAM group, this can be achieved by applying the
-following IAM policy to the group.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:*AccessKey*&quot;,
-                 &quot;iam:*Password&quot;,
-                 &quot;iam:*MFADevice*&quot;,
-                 &quot;iam:UpdateLoginProfile&quot;
-        ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}&quot;
-    },
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:CreateVirtualMFADevice&quot;,
-                 &quot;iam:DeleteVirtualMFADevice&quot;
-      ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}&quot;
-    }
-  ]
-}
-</code></pre></div>
-<p>While the above policy is sufficient to allow users to manage their
-credentials, AWS administrators may consider the following statement as an
-addition; it allows IAM users to know what the account&#39;s password policy is.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Effect&quot;: &quot;Allow&quot;,
-  &quot;Action&quot;: &quot;iam:GetAccountPasswordPolicy&quot;,
-  &quot;Resource&quot;: &quot;*&quot;
-}
-</code></pre></div>
-<h3>Use AWS Scout2 to detect user policies</h3>
-
-<p>The default ruleset used by <a href="https://github.com/iSECPartners/Scout2">AWS
-Scout2</a> includes a rule that checks for
-user policies and reports the use of user-specific IAM policies as a warning.
-Detection of user-specific IAM policies results in the IAM menu dropdown
-containing a &quot;User policies&quot; security risk, as illustrated in the below screenshot.</p>
-
-<p><img src="/images/aws/awsscout2-iam-user-policy-1.png" alt="Screenshot: IAM menu dropdown with a User policies security risk"></p>
-
-<p>When clicked-on, this &quot;User policies&quot; link filters the list of IAM users to only
-display those who have at least one user policy attached. The orange badge
-indicates a warning and the count of user policies attached to this particular
-IAM user.</p>
-
-<p><img src="/images/aws/awsscout2-iam-user-policy-2.png" alt="Screenshot: Orange badge indicating that at least one user policy is attached to that IAM user"></p>
-
-<h3>Check that all IAM users belong to the common group</h3>
-
-<p>AWS Scout2 comes with a tool — RulesGenerator.py — that allows AWS account
-administrators to generate a custom ruleset to tailor the report to their
-needs. An optional IAM rule requires all IAM users to belong to a common IAM
-group. In order to enable this rule, the following can be done:</p>
-
-<ol>
-<li>Run the rules generator with the following command line:
-<pre style="margin-left: -20px; margin-top: 10px; margin-bottom: 10px"><code>./RulesGenerator.py --ruleset_name isec --services iam</pre></code></li>
-<li>Answer &quot;yes&quot; to the question &quot;Would you like to ensure that all IAM users belong to a given IAM group?&quot;</li>
-<li>Enter the name of your common group (<em>e.g.</em> AllUsers)</li>
-<li>Enter &quot;yes&quot; or &quot;y&quot; to confirm</li>
-<li>Change the level if desired</li>
-<li>Run Scout2</li>
-</ol>
-
-<p><strong><em>Note</em></strong>: If you have already run Scout2 and do not wish to download the latest
-IAM configuration, use the following command to run an offline analysis:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./Scout2.py --ruleset_name isec --services iam --local
-</code></pre></div>
-<p>The following screenshot illustrates the IAM menu dropdown containing a
-security risk when IAM users do not belong to the configured common group.</p>
-
-<p><img src="/images/aws/awsscout2-iam-user-commongroup-1.png" alt="Screenshot: IAM menu dropdown when IAM users do not belong to the common group"></p>
-
-<p>When clicked-on, this link filters the list of IAM users to only display those
-who do not belong to the common IAM group. A colored warning sign appears,
-warning about this issue.</p>
-
-<p><img src="/images/aws/awsscout2-iam-user-commongroup-2.png" alt="Screenshot: Orange badge indicating that at least one user policy is attached to that IAM user"></p>
-
-<h3>Conclusion</h3>
-
-<p>Strict management of IAM users and tight control of their privileges is key in
-maintaining a secure AWS environment. When followed, the above recommendations
-should enable AWS administrators to manage IAM users with improved efficiency
-and lower the chances of overly privileged users to exist.</p>
 
     
   </div>
