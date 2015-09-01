@@ -7,6 +7,50 @@
     <atom:link href="https://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Redshift support added in Scout2</title>
+        <description>&lt;p&gt;Today, I am excited to announce that support for Redshift was added in
+Scout2. By default, Scout2 will fetch information about your Redshift clusters,
+cluster parameter groups, and cluster security groups if you still use
+EC2-Classic. At this stage, Scout2 comes with six Redshift security rules that
+are enabled by default:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Clusters
+
+&lt;ul&gt;
+&lt;li&gt;Check whether version upgrade is enabled&lt;/li&gt;
+&lt;li&gt;Check whether the cluster is publicly accessible&lt;/li&gt;
+&lt;li&gt;Check whether database encryption is enabled&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Cluster parameter groups
+
+&lt;ul&gt;
+&lt;li&gt;Check whether SSL/TLS is required to access the database&lt;/li&gt;
+&lt;li&gt;Check whether user activity logging is enabled&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Cluster security groups (EC2-classic)
+
+&lt;ul&gt;
+&lt;li&gt;Check whether the security group allows access to all IP addresses (0.0.0.0/0)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Scout2 was first released over a year and a half ago, and proved to be extremely
+helpful when performing AWS configuration reviews. While
+Scout2&amp;#39;s initial release only supported three services (IAM, EC2, and S3) and
+included thirteen security checks, the tool rapidly grew to add support for RDS
+and CloudTrail. Furthermore, the tool now offers over fifty tests throughout
+these five supported services. I hope that support for Redshift will bring
+value to users of Scout2, and welcome feature requests, bug reports, and
+recommendations on Github at
+&lt;a href=&quot;https://github.com/iSECPartners/Scout2/issues&quot;&gt;https://github.com/iSECPartners/Scout2/issues&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Aug 2015 08:39:00 -0700</pubDate>
+        <link>https://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</link>
+        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</guid>
+      </item>
+    
+      <item>
         <title>Introducing opinel: Scout2's favorite tool</title>
         <description>&lt;p&gt;With boto3 being stable and generally available&lt;sup&gt;&lt;a href=&quot;https://aws.amazon.com/about-aws/whats-new/2015/06/boto3-aws-sdk-for-python-version-3-is-now-generally-available&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, I took the opportunity
 to migrate Scout2 and AWS-recipes to boto3. As part of that migration

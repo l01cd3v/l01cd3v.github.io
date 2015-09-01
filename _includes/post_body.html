@@ -22,6 +22,10 @@
     {% include isec.html %}
   {% endif %}
 
+  {% if tmp.tags contains 'NCC' %}
+    {% include ncc.html %}
+  {% endif %}
+
   <div class="entry">
     {% if post %}
       {{ post.content }}
