@@ -49,6 +49,328 @@
 
   <h1>
     
+      <a href="/aws/2015/11/17/ip_ranges_management.html">Efficient review of AWS security groups' CIDR grants</a>
+    
+  </h1>
+
+  <div class="date">
+    Published on November 17, 2015
+  </div>
+
+  
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://www.nccgroup.trust/us/blog">NCC Group's blog</a>]
+</h6>
+
+  
+
+  <div class="entry">
+    
+      <p>A significant challenge for companies using the cloud lies in ensuring that
+their firewall rules follow the principle of least privilege. It is
+extremely common nowadays to delegate management of security groups to developers, for
+both production and test environments. This means that security groups and
+their associated rules are managed by a much larger number of employees than
+what used to be the case in non-cloud environments, where a unique, smaller
+team was in charge of managing all firewall rules. Due to the more dynamic
+nature of cloud-based infrastructures, companies should review their cloud
+environment&#39;s firewall rules on a more frequent basis than for non cloud-based
+systems. Unfortunately, this is a difficult exercise due to the large number of
+<a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDRs</a> that may be whitelisted in a given AWS account. Keeping track of all
+known CIDRs and what hosts or networks they represent is not easy for
+employees, and is almost impossible for external auditors who must perform the
+review within a limited timeframe.</p>
+
+<p>In this post, NCC Group will document how this issue can be addressed using the
+<a href="https://github.com/iSECPartners/AWS-recipes">AWS-Recipes</a> tools and
+<a href="https://github.com/iSECPartners/Scout2">Scout2</a>.</p>
+
+<h3>Feed custom ip-ranges files to Scout2</h3>
+
+<p>Today, NCC Group is excited to announce that Scout2 accepts JSON files that
+contain known CIDRs along with arbitrary metadata such as the host or network
+they represent. When provided with such files, Scout2&#39;s report displays the
+&quot;friendly name&quot; of each known CIDR that is whitelisted in security group rules.
+This means that, instead of reviewing a list of obscure IP ranges, users of
+Scout2 may now rely on the name associated with each CIDR.</p>
+
+<p>In order to use this new feature, Scout2 should be run with the following
+arguments:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./Scout2.py --profile nccgroup --ip-ranges ip-ranges-nccgroup.json ip-ranges-ncc-offices.json --ip-ranges-key-name name
+</code></pre></div>
+<p>In the above command line, Scout2 receives two ip-ranges JSON files via the
+&quot;--ip-ranges&quot; argument:</p>
+
+<ul>
+<li>ip-ranges-nccgroup.json, which contains the public IP addresses in the AWS IP space in use</li>
+<li>ip-ranges-ncc-offices.json, which contains the public IP addresses of several offices</li>
+</ul>
+
+<p>Furthermore, the &quot;--ip-ranges-key-name&quot; argument indicates which JSON field to
+display as the &quot;friendly name&quot;.</p>
+
+<p>The following screenshot illustrates that, in the Scout2 report, the name of
+each known CIDR is displayed. When an IP which belongs to a known CIDR is
+whitelisted, the name of the corresponding CIDR is used. In this example,
+5.5.5.42/32 belongs to the 5.5.5.0/24 CIDR, which is associated with the &quot;San
+Francisco&quot; office. An &quot;Unknown CIDR&quot; value is displayed when an unknown value
+is whitelisted.</p>
+
+<p><img src="/images/aws/awsscout2-ec2-cidr-friendlyname.png" alt="Screenshot: Security group rules display the name of each known CIDRs"></p>
+
+<p>The next section of this blog post documents how users can create and manage
+these ip-ranges JSON files.</p>
+
+<h3>Manage known CIDRs with aws_recipes_create_ip_ranges.py</h3>
+
+<p>With AWS releasing their public IP address ranges, NCC decided to create a tool
+that allows creation and management of arbitrary IP address ranges using the
+same JSON format. The tool is released on GitHub at
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py">https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py</a>
+and may be used in several scenarios:</p>
+
+<ul>
+<li>Automatically create ip-ranges files based on public IP addresses in AWS (Elastic IPs and EC2 instances)</li>
+<li>Automatically create ip-ranges files based on IP addresses documented in a CSV file</li>
+<li>Manually create and manage ip-ranges files</li>
+</ul>
+
+<p>Each of these use cases is detailed in an example below, with detailed input,
+commands, and output contents.</p>
+
+<p><strong><em>Note:</em></strong> In the commands below, the &quot;--debug&quot; argument is used to
+output pretty-printed JSON, for documentation purposes.</p>
+
+<h4>Automatically create ip-ranges based on public IP addresses in an AWS account</h4>
+
+<p>First, this tool may be used to create an ip-ranges file that contains an AWS
+account&#39;s elastic IP addresses and EC2 instances&#39; public IP addresses. By doing
+so, AWS users will be able to maintain a list of public IP addresses in the AWS
+IP space that are associated with their resources. Assuming that AWS
+credentials are configured under the &quot;nccgroup&quot; profile name, the command
+below may be used:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --profile nccgroup --debug
+
+Fetching public IP information for the &#39;nccgroup&#39; environment...
+...in us-east-1: EC2 instances
+...in us-east-1: Elastic IP addresses
+...in ap-northeast-1: EC2 instances
+...in ap-northeast-1: Elastic IP addresses
+...in eu-west-1: EC2 instances
+...in eu-west-1: Elastic IP addresses
+...in ap-southeast-1: EC2 instances
+...in ap-southeast-1: Elastic IP addresses
+...in ap-southeast-2: EC2 instances
+...in ap-southeast-2: Elastic IP addresses
+...in us-west-2: EC2 instances
+...in us-west-2: Elastic IP addresses
+...in us-west-1: EC2 instances
+...in us-west-1: Elastic IP addresses
+...in eu-central-1: EC2 instances
+...in eu-central-1: Elastic IP addresses
+...in sa-east-1: EC2 instances
+...in sa-east-1: Elastic IP addresses
+</code></pre></div>
+<p>NCC Group&#39;s test environment has one elastic IP address that is not associated
+with an AWS resource, and one EC2 instance that has a non-elastic public IP.
+Executing the above command results in the creation of an
+&quot;ip-ranges-nccgroup.json&quot; file that has the following contents:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;createDate&quot;: &quot;2015-11-16-22-49-27&quot;,
+    &quot;prefixes&quot;: [
+        {
+            &quot;instance_id&quot;: &quot;i-11223344&quot;,
+            &quot;ip_prefix&quot;: &quot;1.1.1.1&quot;,
+            &quot;is_elastic&quot;: false,
+            &quot;name&quot;: &quot;Test EC2 instance&quot;,
+            &quot;region&quot;: &quot;us-west-2&quot;
+        },
+        {
+            &quot;instance_id&quot;: null,
+            &quot;ip_prefix&quot;: &quot;2.2.2.2&quot;,
+            &quot;is_elastic&quot;: true,
+            &quot;name&quot;: null,
+            &quot;region&quot;: &quot;us-west-2&quot;
+        }
+    ]
+}
+</code></pre></div>
+<h4>Automatically create ip-ranges from CSV files</h4>
+
+<p>From experience, NCC Group knows that many companies maintain a list of their
+public IP addresses, along with other network configuration information, in alternate formats, such as CSV. In
+order to help with the conversion, the tool supports reading CIDR information
+from CSV files. The tool was designed to be flexible and allow the creation of IP
+ranges from any CSV file. In this blog post, NCC group provides two examples.</p>
+
+<p>This first example demonstrates how to use the tool to build a JSON file based
+on the CSV column headers. Only attributes specified on the command line will
+be copied over.</p>
+
+<p>Contents of test1.csv:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ip_prefix, discarded_value, name
+4.4.4.0/24, ncc group, NY office
+# This is a comment...
+5.5.5.0/24, ncc group, Seattle office
+</code></pre></div>
+<p>Command line to convert the contents of the CSV file into JSON:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test1.csv --attributes ip_prefix name --profile ncc-test1 --debug
+</code></pre></div>
+<p>Contents of ip-ranges-ncc-test1.json:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;createDate&quot;: &quot;2015-11-17-10-22-42&quot;,
+    &quot;prefixes&quot;: [
+        {
+            &quot;ip_prefix&quot;: &quot;4.4.4.0/24&quot;,
+            &quot;name&quot;: &quot; NY office&quot;
+        },
+        {
+            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
+            &quot;name&quot;: &quot; Seattle office&quot;
+        }
+    ]
+}
+</code></pre></div>
+<p>The second example demonstrates how to use the tool to parse a CSV file with
+custom column names and separate columns for the base IP and subnet mask. The
+&quot;--mappings&quot; argument determines how columns will be mapped to the JSON
+file&#39;s attributes.</p>
+
+<p>Contents of test2.csv</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Base IP, Dotted Subnet Mask, Subnet Mask, Something, Name, Something else
+3.3.3.0, 255.255.255.0, /24, Value to discard, SF Office, Other value to discard
+</code></pre></div>
+<p>Command line to convert the contents of the CSV file into JSON:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test2.csv --attributes ip_prefix mask name --mappings 0 2 4 --profile ncc-test2 --skip-first-line --debug
+</code></pre></div>
+<p>Contents of ip-ranges-ncc-test2.json</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;createDate&quot;: &quot;2015-11-17-10-07-22&quot;,
+    &quot;prefixes&quot;: [
+        {
+            &quot;ip_prefix&quot;: &quot;3.3.3.0/24&quot;,
+            &quot;name&quot;: &quot; SF Office&quot;
+        }
+    ]
+}
+</code></pre></div>
+<h4>Manually create and update ip-ranges</h4>
+
+<p>In case CIDRs were not managed in a CSV file, the tools offers an interactive
+mode that may be leveraged to manually create a JSON ip-ranges file. The
+following snippet illustrates how to use the tool to interactively create new
+ip-ranges JSON files:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name
+
+Add a new IP prefix to the ip ranges (y/n)? 
+y
+Enter the new IP prefix:
+5.5.5.0/24
+You entered &quot;5.5.5.0/24&quot;. Is that correct (y/n)? 
+y
+Enter the &#39;name&#39; value:
+San Francisco
+You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
+y
+Add a new IP prefix to the ip ranges (y/n)? 
+y
+Enter the new IP prefix:
+6.6.6.6/32
+You entered &quot;6.6.6.6/32&quot;. Is that correct (y/n)? 
+y
+Enter the &#39;name&#39; value:
+San Francisco
+You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
+y
+Add a new IP prefix to the ip ranges (y/n)? 
+n
+</code></pre></div>
+<p>Contents of ip-ranges-ncc-offices.json:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+    &quot;createDate&quot;: &quot;2015-11-16-22-44-38&quot;,
+    &quot;prefixes&quot;: [
+        {
+            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
+        },
+        {
+            &quot;ip_prefix&quot;: &quot;6.6.6.6/32&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
+        }
+    ]
+}
+</code></pre></div>
+<p>The tool can also automatically add new CIDRs to existing ip-ranges files:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name --debug
+
+Loading existing IP ranges from ip-ranges-ncc-offices.json
+Add a new IP prefix to the ip ranges (y/n)? 
+y
+Enter the new IP prefix:
+7.7.7.7/32
+You entered &quot;7.7.7.7/32&quot;. Is that correct (y/n)? 
+y
+Enter the &#39;name&#39; value:
+Seattle
+You entered &quot;Seattle&quot;. Is that correct (y/n)? 
+y
+Add a new IP prefix to the ip ranges (y/n)? 
+n
+File &#39;ip-ranges-ncc-offices.json&#39; already exists. Do you want to overwrite it (y/n)? 
+y
+
+$ cat ip-ranges-ncc-offices.json 
+{
+    &quot;createDate&quot;: &quot;2015-11-16-22-44-38&quot;,
+    &quot;prefixes&quot;: [
+        {
+            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
+        },
+        {
+            &quot;ip_prefix&quot;: &quot;6.6.6.6/32&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
+        },
+        {
+            &quot;ip_prefix&quot;: &quot;7.7.7.7/32&quot;,
+            &quot;name&quot;: &quot;Seattle&quot;
+        }
+    ]
+}
+</code></pre></div>
+<h3>Conclusion</h3>
+
+<p>This addition to Scout2 provides AWS account administrators and auditors with
+an improved insight into their environment. Usage of this feature should result
+in further hardened security groups because detection of unknown whitelisted
+CIDRs and understanding of existing rules is significantly easier.</p>
+
+<p>NCC Group is currently working on a major rework of Scout2&#39;s reporting engine,
+which will further improve reporting and allow creation of new alerts when an
+unknown CIDR is whitelisted.</p>
+
+    
+  </div>
+
+</article>
+
+
+    
+      <hr>
+    
+
+
+
+    <article class="post">
+
+  
+    
+  
+
+  <h1>
+    
       <a href="/aws/2015/08/06/scout2_supports_redshift.html">Redshift support added in Scout2</a>
     
   </h1>
@@ -539,181 +861,6 @@ short-lived credentials.</p>
 <p>By using this pair of tools to manage their AWS access keys, IAM users can
 easily use the AWS CLI and other tools built with various AWS SDKs in
 environments that have been secured and enforce MFA-protected API access.</p>
-
-    
-  </div>
-
-</article>
-
-
-    
-      <hr>
-    
-
-
-
-    <article class="post">
-
-  
-    
-  
-
-  <h1>
-    
-      <a href="/aws/2015/04/02/use_and_enforce_mfa.html">Use and enforce Multi-Factor Authentication</a>
-    
-  </h1>
-
-  <div class="date">
-    Published on April  2, 2015
-  </div>
-
-  
-    <h6>
-    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
-</h6>
-
-  
-
-  
-
-  <div class="entry">
-    
-      <h3>What is Multi-Factor Authentication?</h3>
-
-<p>When enabled, Multi-Factor Authentication (MFA) provides strong
-defense-in-depth against compromises of credentials. MFA-enabled users have a
-device that periodically generates a new authentication code (<em>i.e.</em> one-time
-password); they need to enter the current authentication code along with their
-static credentials (<em>i.e.</em> username and password) in order to successfully
-authenticate. In addition to supporting MFA when accessing the web console
-(<em>i.e.</em> password-based authentication), AWS also offers MFA-protected API
-access for users who work with AWS access keys. Through the Security Token
-Service (STS), IAM users can request temporary credentials in exchange for
-their long-lived credentials (<em>i.e.</em> AWS access key ID and secret key) and
-their current authentication code.</p>
-
-<h3>Why should one use and enforce MFA?</h3>
-
-<p>For companies deploying their application in the cloud, a breach that results
-in unauthorized access to the management console &mdash; or API &mdash; is the
-worst-case scenario. While a number of AWS administrators have realized the
-importance of enabling MFA when they access the web console, a limited number
-of them enforce MFA-protected API access. This represents a huge gap in one&#39;s
-security posture because AWS access keys do not come with as many security
-features as passwords do:</p>
-
-<ul>
-<li>AWS administrators can enforce password expiration; this is currently not
-possible for AWS access keys.</li>
-<li>While it is probably safe to assume that most AWS administrators do not store
-their password in plaintext, most of them use AWS access keys. By design, these
-keys are meant to be stored in plaintext files that are accessed by tools built
-with the various AWS SDKs.</li>
-<li>A lost password is a forgotten password; a lost key is a key stored in a lost
-file, which may be on an unencrypted storage device (e.g. hard drive or USB Flash
-drive).</li>
-</ul>
-
-<p>Because AWS access keys are long-lived credentials that are stored in plaintext
-files, they are more susceptible to compromise than passwords. It is therefore
-necessary to enable MFA when the AWS API is accessed using these keys and not
-only when users sign in using their passwords.</p>
-
-<h3>How can one enforce MFA?</h3>
-
-<p>Unfortunately, at time of writing, AWS does not offer an option to enforce
-MFA-protected API access via a global setting. Therefore, AWS account
-administrators must carefully manage their IAM users and develop a strategy to
-reliably achieve this. In order to enforce MFA-protected API access, iSEC
-recommends the following:</p>
-
-<ol>
-<li>Create a common IAM group that all IAM users belong to, as discussed in the previous <a href="/aws/2015/02/24/iam_user_management.html">IAM user management strategy</a> post.</li>
-<li>Add the following policy (also available on <a href="https://github.com/iSECPartners/AWS-recipes/blob/master/IAM-Policies/EnforceMFA-8HourSession.json">Github</a>) to enforce MFA for all users who belong to this group.</li>
-</ol>
-
-<p>This policy will enforce MFA regardless of how the IAM user authenticated with
-AWS; it will be effective whether they use password-based or key-based
-authentication.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;Null&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;true&quot;}
-      }
-    },
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;NumericGreaterThan&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;28800&quot;}
-      }
-    }
-  ]
-}
-</code></pre></div>
-<p>The first statement in the above policy denies all actions if the
-<em>aws:MultiFactorAuthAge</em> key is not present; this key only exists if MFA is
-used [1].</p>
-
-<p>The second statement verifies that the validation of the MFA code was performed
-less than eight hours ago. Temporary credentials may be valid for a duration
-between fifteen minutes and thirty-six hours [2]. iSEC recommends requiring
-users to initiate a new session at least once a day.</p>
-
-<p><strong><em>Note:</em></strong> An &quot;explicit deny&quot; means that, regardless of other policies granted
-to a user, this deny rule will prevail. More information about the IAM policy
-evaluation logic can be found in the AWS documentation at <a
-target="_blank"
-href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_EvaluationLogic.html">http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_EvaluationLogic.html</a>.</p>
-
-<h3>Use AWS Scout2 to detect users without MFA</h3>
-
-<p>The default ruleset used by <a href="https://github.com/iSECPartners/Scout2">AWS Scout2</a> includes a rule that checks for IAM users who have password-based authentication enabled but do not have an MFA device configured. If Scout2 detects IAM users with password-based authentication enabled and no MFA device, it will document a &quot;Lack of MFA&quot; security risk in the IAM menu dropdown, as illustrated in the below screenshot.</p>
-
-<p><img src="/images/aws/awsscout2-user-nomfa-1.png" alt="Screenshot: IAM menu dropdown with a &quot;Lack of MFA&quot; security risk"></p>
-
-<p>When clicked, this &quot;Lack of MFA&quot; link filters the list of IAM users to display
-those who have password-based authentication enabled but no MFA device
-configured. The red &quot;No&quot; following &quot;Multi-Factor enabled&quot; indicates a danger
-tied to that particular IAM user.</p>
-
-<p><img src="/images/aws/awsscout2-user-nomfa-2.png" alt="Screenshot: Red &quot;No&quot; indicating that this IAM user may access the web console without MFA"></p>
-
-<h3>How can one use MFA with command line tools?</h3>
-
-<p>Users of the AWS CLI (and other command line tools) have several methods to
-configure their credentials, such as environment variables, configuration
-files, or command line arguments. However, updating these settings on a daily
-basis when MFA-protected API access is enabled is inconvenient. To help
-facilitate this work flow, iSEC has created a set of Python tools and released
-them in the <a href="https://github.com/iSECPartners/AWS-recipes">AWS-recipes</a>
-repository. Further details about these tools will be published in the next
-blog post.</p>
-
-<p>Additional information about MFA with AWS is available in the AWS
-documentation at <a target="_blank"
-href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingMFA.html">
-https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingMFA.html</a>.</p>
-
-<h3>Conclusion</h3>
-
-<p>Enforcing Multi-Factor Authentication for all IAM users is extremely important
-in order to mitigate the risks of credentials compromise (especially the AWS
-access key ID and secret). This aspect of security is commonly overlooked and
-may result in catastrophic damages. By using a strict strategy for management
-of IAM users and the above IAM policy, AWS administrators may significantly
-reduce risks of account compromise.</p>
-
-<p>[1] <a target="_blank" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys">http://docs.aws.amazon.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html#AvailableKeys</a></p>
-
-<p>[2] <a target="_blank" href="http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html">http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html</a></p>
 
     
   </div>
