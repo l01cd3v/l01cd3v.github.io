@@ -22,13 +22,13 @@ known CIDRs and what hosts or networks they represent is not easy for
 employees, and is almost impossible for external auditors who must perform the
 review within a limited timeframe.
 
-In this post, NCC Group will document how this issue can be addressed using the
+In this post, I will document how this issue can be addressed using the
 [AWS-Recipes](https://github.com/iSECPartners/AWS-recipes) tools and
 [Scout2](https://github.com/iSECPartners/Scout2).
 
 ### Feed custom ip-ranges files to Scout2
 
-Today, NCC Group is excited to announce that Scout2 accepts JSON files that
+Today, I am excited to announce that Scout2 accepts JSON files that
 contain known CIDRs along with arbitrary metadata such as the host or network
 they represent. When provided with such files, Scout2's report displays the
 "friendly name" of each known CIDR that is whitelisted in security group rules.
@@ -63,7 +63,7 @@ these ip-ranges JSON files.
 
 ### Manage known CIDRs with aws\_recipes\_create\_ip\_ranges.py
 
-With AWS releasing their public IP address ranges, NCC decided to create a tool
+With AWS releasing their public IP address ranges, I decided to create a tool
 that allows creation and management of arbitrary IP address ranges using the
 same JSON format. The tool is released on GitHub at
 [https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws\_recipes\_create\_ip\_ranges.py](https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py)
@@ -110,7 +110,7 @@ below may be used:
     ...in sa-east-1: EC2 instances
     ...in sa-east-1: Elastic IP addresses
 
-NCC Group's test environment has one elastic IP address that is not associated
+My test environment has one elastic IP address that is not associated
 with an AWS resource, and one EC2 instance that has a non-elastic public IP.
 Executing the above command results in the creation of an
 "ip-ranges-nccgroup.json" file that has the following contents:
@@ -138,11 +138,11 @@ Executing the above command results in the creation of an
 
 #### Automatically create ip-ranges from CSV files
 
-From experience, NCC Group knows that many companies maintain a list of their
+From experience, I know that many companies maintain a list of their
 public IP addresses, along with other network configuration information, in alternate formats, such as CSV. In
 order to help with the conversion, the tool supports reading CIDR information
 from CSV files. The tool was designed to be flexible and allow the creation of IP
-ranges from any CSV file. In this blog post, NCC group provides two examples.
+ranges from any CSV file. In this blog post, I provide two examples.
 
 This first example demonstrates how to use the tool to build a JSON file based
 on the CSV column headers. Only attributes specified on the command line will
@@ -297,6 +297,6 @@ an improved insight into their environment. Usage of this feature should result
 in further hardened security groups because detection of unknown whitelisted
 CIDRs and understanding of existing rules is significantly easier.
 
-NCC Group is currently working on a major rework of Scout2's reporting engine,
+I am currently working on a major rework of Scout2's reporting engine,
 which will further improve reporting and allow creation of new alerts when an
 unknown CIDR is whitelisted.
