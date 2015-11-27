@@ -3,7 +3,7 @@
 #
 
 # Name of your site (displayed in the header)
-name: l01cd3v.github.io
+name: blog.l01cd3v.fr
 author: Loïc 
 
 # Short bio or description (displayed in the header)
@@ -22,7 +22,7 @@ footer-links:
 google_analytics: UA-56674561-3
 
 # Used for Sitemap.xml and your RSS feed
-url: https://l01cd3v.github.io
+url: http://blog.l01cd3v.fr
 
 #
 # !! You don't need to change any of the configuration flags below !!

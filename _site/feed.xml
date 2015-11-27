@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>l01cd3v.github.io</title>
+    <title>blog.l01cd3v.fr</title>
     <description></description>
-    <link>https://l01cd3v.github.io</link>
-    <atom:link href="https://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://blog.l01cd3v.fr</link>
+    <atom:link href="http://blog.l01cd3v.fr/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Efficient review of AWS security groups' CIDR grants</title>
@@ -23,13 +23,13 @@ known CIDRs and what hosts or networks they represent is not easy for
 employees, and is almost impossible for external auditors who must perform the
 review within a limited timeframe.&lt;/p&gt;
 
-&lt;p&gt;In this post, NCC Group will document how this issue can be addressed using the
+&lt;p&gt;In this post, I will document how this issue can be addressed using the
 &lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes&quot;&gt;AWS-Recipes&lt;/a&gt; tools and
 &lt;a href=&quot;https://github.com/iSECPartners/Scout2&quot;&gt;Scout2&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3&gt;Feed custom ip-ranges files to Scout2&lt;/h3&gt;
 
-&lt;p&gt;Today, NCC Group is excited to announce that Scout2 accepts JSON files that
+&lt;p&gt;Today, I am excited to announce that Scout2 accepts JSON files that
 contain known CIDRs along with arbitrary metadata such as the host or network
 they represent. When provided with such files, Scout2&amp;#39;s report displays the
 &amp;quot;friendly name&amp;quot; of each known CIDR that is whitelisted in security group rules.
@@ -65,7 +65,7 @@ these ip-ranges JSON files.&lt;/p&gt;
 
 &lt;h3&gt;Manage known CIDRs with aws_recipes_create_ip_ranges.py&lt;/h3&gt;
 
-&lt;p&gt;With AWS releasing their public IP address ranges, NCC decided to create a tool
+&lt;p&gt;With AWS releasing their public IP address ranges, I decided to create a tool
 that allows creation and management of arbitrary IP address ranges using the
 same JSON format. The tool is released on GitHub at
 &lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py&quot;&gt;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py&lt;/a&gt;
@@ -113,7 +113,7 @@ Fetching public IP information for the &amp;#39;nccgroup&amp;#39; environment...
 ...in sa-east-1: EC2 instances
 ...in sa-east-1: Elastic IP addresses
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;NCC Group&amp;#39;s test environment has one elastic IP address that is not associated
+&lt;p&gt;My test environment has one elastic IP address that is not associated
 with an AWS resource, and one EC2 instance that has a non-elastic public IP.
 Executing the above command results in the creation of an
 &amp;quot;ip-ranges-nccgroup.json&amp;quot; file that has the following contents:&lt;/p&gt;
@@ -139,11 +139,11 @@ Executing the above command results in the creation of an
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;Automatically create ip-ranges from CSV files&lt;/h4&gt;
 
-&lt;p&gt;From experience, NCC Group knows that many companies maintain a list of their
+&lt;p&gt;From experience, I know that many companies maintain a list of their
 public IP addresses, along with other network configuration information, in alternate formats, such as CSV. In
 order to help with the conversion, the tool supports reading CIDR information
 from CSV files. The tool was designed to be flexible and allow the creation of IP
-ranges from any CSV file. In this blog post, NCC group provides two examples.&lt;/p&gt;
+ranges from any CSV file. In this blog post, I provide two examples.&lt;/p&gt;
 
 &lt;p&gt;This first example demonstrates how to use the tool to build a JSON file based
 on the CSV column headers. Only attributes specified on the command line will
@@ -287,13 +287,13 @@ an improved insight into their environment. Usage of this feature should result
 in further hardened security groups because detection of unknown whitelisted
 CIDRs and understanding of existing rules is significantly easier.&lt;/p&gt;
 
-&lt;p&gt;NCC Group is currently working on a major rework of Scout2&amp;#39;s reporting engine,
+&lt;p&gt;I am currently working on a major rework of Scout2&amp;#39;s reporting engine,
 which will further improve reporting and allow creation of new alerts when an
 unknown CIDR is whitelisted.&lt;/p&gt;
 </description>
         <pubDate>Tue, 17 Nov 2015 08:00:00 -0800</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/11/17/ip_ranges_management.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/11/17/ip_ranges_management.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/11/17/ip_ranges_management.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/11/17/ip_ranges_management.html</guid>
       </item>
     
       <item>
@@ -336,8 +336,8 @@ recommendations on Github at
 &lt;a href=&quot;https://github.com/iSECPartners/Scout2/issues&quot;&gt;https://github.com/iSECPartners/Scout2/issues&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Aug 2015 08:39:00 -0700</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/08/06/scout2_supports_redshift.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/08/06/scout2_supports_redshift.html</guid>
       </item>
     
       <item>
@@ -416,8 +416,8 @@ MFA-protected API calls, which allows users to use both their long-lived and STS
 credentials.&lt;/p&gt;
 </description>
         <pubDate>Mon, 03 Aug 2015 11:08:00 -0700</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/08/03/boto3_opinel_scout_recipes.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/08/03/boto3_opinel_scout_recipes.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/08/03/boto3_opinel_scout_recipes.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/08/03/boto3_opinel_scout_recipes.html</guid>
       </item>
     
       <item>
@@ -568,8 +568,8 @@ and use of a naming convention for IAM users enables
 automated user management and enforcement of security rules.&lt;/p&gt;
 </description>
         <pubDate>Tue, 09 Jun 2015 09:20:00 -0700</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/06/09/iam_user_management_2.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/06/09/iam_user_management_2.html</guid>
       </item>
     
       <item>
@@ -675,8 +675,8 @@ easily use the AWS CLI and other tools built with various AWS SDKs in
 environments that have been secured and enforce MFA-protected API access.&lt;/p&gt;
 </description>
         <pubDate>Fri, 03 Apr 2015 14:10:00 -0700</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/04/03/session_management_tools.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/04/03/session_management_tools.html</guid>
       </item>
     
       <item>
@@ -818,8 +818,8 @@ reduce risks of account compromise.&lt;/p&gt;
 &lt;p&gt;[2] &lt;a target=&quot;_blank&quot; href=&quot;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&quot;&gt;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 02 Apr 2015 14:10:00 -0700</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/04/02/use_and_enforce_mfa.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/04/02/use_and_enforce_mfa.html</guid>
       </item>
     
       <item>
@@ -956,8 +956,8 @@ should enable AWS administrators to manage IAM users with improved efficiency
 and lower the chances of overly privileged users to exist.&lt;/p&gt;
 </description>
         <pubDate>Tue, 24 Feb 2015 20:49:00 -0800</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/02/24/iam_user_management.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/02/24/iam_user_management.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/02/24/iam_user_management.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/24/iam_user_management.html</guid>
       </item>
     
       <item>
@@ -1012,8 +1012,8 @@ associated with this account. &lt;strong&gt;This means that, without MFA, your p
 environment is only as secure as an email.&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 23 Feb 2015 08:42:00 -0800</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/02/23/do_not_use_your_root_account.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/02/23/do_not_use_your_root_account.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/02/23/do_not_use_your_root_account.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/23/do_not_use_your_root_account.html</guid>
       </item>
     
       <item>
@@ -1047,8 +1047,8 @@ Identity and Access Management (IAM) common issues and best practices, and will
 present a strategy to improve one&amp;#39;s security posture when using AWS.&lt;/p&gt;
 </description>
         <pubDate>Sun, 22 Feb 2015 22:24:00 -0800</pubDate>
-        <link>https://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</guid>
+        <link>http://blog.l01cd3v.fr/aws/2015/02/22/announcing_the_aws_blog_post_series.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/22/announcing_the_aws_blog_post_series.html</guid>
       </item>
     
       <item>
@@ -1058,8 +1058,8 @@ I work on, tools that I write and publish, and miscellaneous security and
 privacy related subjects.&lt;/p&gt;
 </description>
         <pubDate>Sat, 21 Feb 2015 17:00:00 -0800</pubDate>
-        <link>https://l01cd3v.github.io/2015/02/21/hello_world.html</link>
-        <guid isPermaLink="true">https://l01cd3v.github.io/2015/02/21/hello_world.html</guid>
+        <link>http://blog.l01cd3v.fr/2015/02/21/hello_world.html</link>
+        <guid isPermaLink="true">http://blog.l01cd3v.fr/2015/02/21/hello_world.html</guid>
       </item>
     
   </channel>

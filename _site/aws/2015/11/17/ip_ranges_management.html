@@ -13,18 +13,18 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
     <link rel="stylesheet" type="text/css" href="/stylesheets/svg-icons.css" media="screen">
-    <link rel="alternate" type="application/rss+xml" title="l01cd3v.github.io" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="blog.l01cd3v.fr" href="/feed.xml" />
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title> Efficient review of AWS security groups' CIDR grants – l01cd3v.github.io </title>
+    <title> Efficient review of AWS security groups' CIDR grants – blog.l01cd3v.fr </title>
   </head>
 
   <body>
     <div id="container">
       <div class="inner">
         <header>
-          <h1>l01cd3v.github.io</h1>
+          <h1>blog.l01cd3v.fr</h1>
           <h2 class="subtitle">by Loïc</h2>
           <nav>
             <a href="/">Blog</a> |
@@ -78,13 +78,13 @@ known CIDRs and what hosts or networks they represent is not easy for
 employees, and is almost impossible for external auditors who must perform the
 review within a limited timeframe.</p>
 
-<p>In this post, NCC Group will document how this issue can be addressed using the
+<p>In this post, I will document how this issue can be addressed using the
 <a href="https://github.com/iSECPartners/AWS-recipes">AWS-Recipes</a> tools and
 <a href="https://github.com/iSECPartners/Scout2">Scout2</a>.</p>
 
 <h3>Feed custom ip-ranges files to Scout2</h3>
 
-<p>Today, NCC Group is excited to announce that Scout2 accepts JSON files that
+<p>Today, I am excited to announce that Scout2 accepts JSON files that
 contain known CIDRs along with arbitrary metadata such as the host or network
 they represent. When provided with such files, Scout2&#39;s report displays the
 &quot;friendly name&quot; of each known CIDR that is whitelisted in security group rules.
@@ -120,7 +120,7 @@ these ip-ranges JSON files.</p>
 
 <h3>Manage known CIDRs with aws_recipes_create_ip_ranges.py</h3>
 
-<p>With AWS releasing their public IP address ranges, NCC decided to create a tool
+<p>With AWS releasing their public IP address ranges, I decided to create a tool
 that allows creation and management of arbitrary IP address ranges using the
 same JSON format. The tool is released on GitHub at
 <a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py">https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_create_ip_ranges.py</a>
@@ -168,7 +168,7 @@ Fetching public IP information for the &#39;nccgroup&#39; environment...
 ...in sa-east-1: EC2 instances
 ...in sa-east-1: Elastic IP addresses
 </code></pre></div>
-<p>NCC Group&#39;s test environment has one elastic IP address that is not associated
+<p>My test environment has one elastic IP address that is not associated
 with an AWS resource, and one EC2 instance that has a non-elastic public IP.
 Executing the above command results in the creation of an
 &quot;ip-ranges-nccgroup.json&quot; file that has the following contents:</p>
@@ -194,11 +194,11 @@ Executing the above command results in the creation of an
 </code></pre></div>
 <h4>Automatically create ip-ranges from CSV files</h4>
 
-<p>From experience, NCC Group knows that many companies maintain a list of their
+<p>From experience, I know that many companies maintain a list of their
 public IP addresses, along with other network configuration information, in alternate formats, such as CSV. In
 order to help with the conversion, the tool supports reading CIDR information
 from CSV files. The tool was designed to be flexible and allow the creation of IP
-ranges from any CSV file. In this blog post, NCC group provides two examples.</p>
+ranges from any CSV file. In this blog post, I provide two examples.</p>
 
 <p>This first example demonstrates how to use the tool to build a JSON file based
 on the CSV column headers. Only attributes specified on the command line will
@@ -342,7 +342,7 @@ an improved insight into their environment. Usage of this feature should result
 in further hardened security groups because detection of unknown whitelisted
 CIDRs and understanding of existing rules is significantly easier.</p>
 
-<p>NCC Group is currently working on a major rework of Scout2&#39;s reporting engine,
+<p>I am currently working on a major rework of Scout2&#39;s reporting engine,
 which will further improve reporting and allow creation of new alerts when an
 unknown CIDR is whitelisted.</p>
 
