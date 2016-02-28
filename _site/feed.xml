@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>blog.l01cd3v.fr</title>
+    <title>l01cd3v.github.io</title>
     <description></description>
-    <link>http://blog.l01cd3v.fr</link>
-    <atom:link href="http://blog.l01cd3v.fr/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://l01cd3v.github.io</link>
+    <atom:link href="http://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Efficient review of AWS security groups' CIDR grants</title>
@@ -292,8 +292,8 @@ which will further improve reporting and allow creation of new alerts when an
 unknown CIDR is whitelisted.&lt;/p&gt;
 </description>
         <pubDate>Tue, 17 Nov 2015 08:00:00 -0800</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/11/17/ip_ranges_management.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/11/17/ip_ranges_management.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/11/17/ip_ranges_management.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/11/17/ip_ranges_management.html</guid>
       </item>
     
       <item>
@@ -336,8 +336,8 @@ recommendations on Github at
 &lt;a href=&quot;https://github.com/iSECPartners/Scout2/issues&quot;&gt;https://github.com/iSECPartners/Scout2/issues&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Aug 2015 08:39:00 -0700</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/08/06/scout2_supports_redshift.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/08/06/scout2_supports_redshift.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/08/06/scout2_supports_redshift.html</guid>
       </item>
     
       <item>
@@ -416,8 +416,8 @@ MFA-protected API calls, which allows users to use both their long-lived and STS
 credentials.&lt;/p&gt;
 </description>
         <pubDate>Mon, 03 Aug 2015 11:08:00 -0700</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/08/03/boto3_opinel_scout_recipes.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/08/03/boto3_opinel_scout_recipes.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/08/03/boto3_opinel_scout_recipes.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/08/03/boto3_opinel_scout_recipes.html</guid>
       </item>
     
       <item>
@@ -568,8 +568,8 @@ and use of a naming convention for IAM users enables
 automated user management and enforcement of security rules.&lt;/p&gt;
 </description>
         <pubDate>Tue, 09 Jun 2015 09:20:00 -0700</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/06/09/iam_user_management_2.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/06/09/iam_user_management_2.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/06/09/iam_user_management_2.html</guid>
       </item>
     
       <item>
@@ -675,8 +675,8 @@ easily use the AWS CLI and other tools built with various AWS SDKs in
 environments that have been secured and enforce MFA-protected API access.&lt;/p&gt;
 </description>
         <pubDate>Fri, 03 Apr 2015 14:10:00 -0700</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/04/03/session_management_tools.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/04/03/session_management_tools.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/04/03/session_management_tools.html</guid>
       </item>
     
       <item>
@@ -818,8 +818,8 @@ reduce risks of account compromise.&lt;/p&gt;
 &lt;p&gt;[2] &lt;a target=&quot;_blank&quot; href=&quot;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&quot;&gt;http://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 02 Apr 2015 14:10:00 -0700</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/04/02/use_and_enforce_mfa.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/04/02/use_and_enforce_mfa.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/04/02/use_and_enforce_mfa.html</guid>
       </item>
     
       <item>
@@ -956,8 +956,8 @@ should enable AWS administrators to manage IAM users with improved efficiency
 and lower the chances of overly privileged users to exist.&lt;/p&gt;
 </description>
         <pubDate>Tue, 24 Feb 2015 20:49:00 -0800</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/02/24/iam_user_management.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/24/iam_user_management.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/02/24/iam_user_management.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/02/24/iam_user_management.html</guid>
       </item>
     
       <item>
@@ -1012,8 +1012,8 @@ associated with this account. &lt;strong&gt;This means that, without MFA, your p
 environment is only as secure as an email.&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 23 Feb 2015 08:42:00 -0800</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/02/23/do_not_use_your_root_account.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/23/do_not_use_your_root_account.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/02/23/do_not_use_your_root_account.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/02/23/do_not_use_your_root_account.html</guid>
       </item>
     
       <item>
@@ -1047,8 +1047,8 @@ Identity and Access Management (IAM) common issues and best practices, and will
 present a strategy to improve one&amp;#39;s security posture when using AWS.&lt;/p&gt;
 </description>
         <pubDate>Sun, 22 Feb 2015 22:24:00 -0800</pubDate>
-        <link>http://blog.l01cd3v.fr/aws/2015/02/22/announcing_the_aws_blog_post_series.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/aws/2015/02/22/announcing_the_aws_blog_post_series.html</guid>
+        <link>http://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</guid>
       </item>
     
       <item>
@@ -1058,8 +1058,8 @@ I work on, tools that I write and publish, and miscellaneous security and
 privacy related subjects.&lt;/p&gt;
 </description>
         <pubDate>Sat, 21 Feb 2015 17:00:00 -0800</pubDate>
-        <link>http://blog.l01cd3v.fr/2015/02/21/hello_world.html</link>
-        <guid isPermaLink="true">http://blog.l01cd3v.fr/2015/02/21/hello_world.html</guid>
+        <link>http://l01cd3v.github.io/2015/02/21/hello_world.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/2015/02/21/hello_world.html</guid>
       </item>
     
   </channel>
