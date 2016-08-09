@@ -7,6 +7,35 @@
     <atom:link href="http://l01cd3v.github.io/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Post Black Hat US 2016 blog post</title>
+        <description>&lt;p&gt;Last Tuesday (August 3rd), I presented &amp;quot;Access Keys Will Kill You Before You
+Kill The Password&amp;quot; at Black Hat US 2016. The summary is on the &lt;a
+target=&quot;_blank&quot;
+href=&quot;https://www.blackhat.com/us-16/briefings.html#access-keys-will-kill-you-before-you-kill-the-password&quot;&gt;Black
+Hat website&lt;/a&gt; and the updated slide deck is available &lt;a
+href=&quot;slides/us-16-Simon-Access-Keys-Will-Kill-You-Before-You-Kill-The-Password.pdf&quot;&gt;Here&lt;/a&gt;.
+This presentation aimed at highlighting risks associated with usage of AWS API
+access keys in environments that do not enforce MFA-protected API access, and
+documented strategies and IAM policies to help address these risks.&lt;/p&gt;
+
+&lt;p&gt;On Wednesday (August 4th), I presented Scout2 at Black Hat Arsenal. During two
+hours, I had the opportunity to demo Scout2 and meet users of the tool who
+shared valuable feedback with me. I look forward to implementing some of the
+features discussed during this event, including adding support for ECS and
+finishing the new rules generator.&lt;/p&gt;
+
+&lt;p&gt;As a reminder, Scout2 is available on &lt;a target=&quot;_blank&quot;
+href=&quot;https://github.com/nccgroup/Scout2&quot;&gt;Github&lt;/a&gt;, feedback is appreciated,
+and feature requests and pull requests are welcome. The Scout2 documentation is
+available at &lt;a target=&quot;_blank&quot;
+href=&quot;https://nccgroup.github.io/Scout2&quot;&gt;https://nccgroup.github.io/Scout2&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 08 Aug 2016 23:28:00 -0700</pubDate>
+        <link>http://l01cd3v.github.io/aws/2016/08/08/blackhat_slides.html</link>
+        <guid isPermaLink="true">http://l01cd3v.github.io/aws/2016/08/08/blackhat_slides.html</guid>
+      </item>
+    
+      <item>
         <title>Efficient review of AWS security groups' CIDR grants</title>
         <description>&lt;p&gt;A significant challenge for companies using the cloud lies in ensuring that
 their firewall rules follow the principle of least privilege. It is
@@ -38,7 +67,7 @@ Scout2 may now rely on the name associated with each CIDR.&lt;/p&gt;
 
 &lt;p&gt;In order to use this new feature, Scout2 should be run with the following
 arguments:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./Scout2.py --profile nccgroup --ip-ranges ip-ranges-nccgroup.json ip-ranges-ncc-offices.json --ip-ranges-key-name name
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;./Scout2.py --profile nccgroup --ip-ranges ip-ranges-nccgroup.json ip-ranges-ncc-offices.json --ip-ranges-key-name name
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In the above command line, Scout2 receives two ip-ranges JSON files via the
 &amp;quot;--ip-ranges&amp;quot; argument:&lt;/p&gt;
@@ -91,9 +120,9 @@ so, AWS users will be able to maintain a list of public IP addresses in the AWS
 IP space that are associated with their resources. Assuming that AWS
 credentials are configured under the &amp;quot;nccgroup&amp;quot; profile name, the command
 below may be used:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --profile nccgroup --debug
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --profile nccgroup --debug
 
-Fetching public IP information for the &amp;#39;nccgroup&amp;#39; environment...
+Fetching public IP information for the 'nccgroup' environment...
 ...in us-east-1: EC2 instances
 ...in us-east-1: Elastic IP addresses
 ...in ap-northeast-1: EC2 instances
@@ -117,26 +146,26 @@ Fetching public IP information for the &amp;#39;nccgroup&amp;#39; environment...
 with an AWS resource, and one EC2 instance that has a non-elastic public IP.
 Executing the above command results in the creation of an
 &amp;quot;ip-ranges-nccgroup.json&amp;quot; file that has the following contents:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-    &amp;quot;createDate&amp;quot;: &amp;quot;2015-11-16-22-49-27&amp;quot;,
-    &amp;quot;prefixes&amp;quot;: [
-        {
-            &amp;quot;instance_id&amp;quot;: &amp;quot;i-11223344&amp;quot;,
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;1.1.1.1&amp;quot;,
-            &amp;quot;is_elastic&amp;quot;: false,
-            &amp;quot;name&amp;quot;: &amp;quot;Test EC2 instance&amp;quot;,
-            &amp;quot;region&amp;quot;: &amp;quot;us-west-2&amp;quot;
-        },
-        {
-            &amp;quot;instance_id&amp;quot;: null,
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;2.2.2.2&amp;quot;,
-            &amp;quot;is_elastic&amp;quot;: true,
-            &amp;quot;name&amp;quot;: null,
-            &amp;quot;region&amp;quot;: &amp;quot;us-west-2&amp;quot;
-        }
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;createDate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2015-11-16-22-49-27&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;prefixes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;instance_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;i-11223344&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.1.1.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;is_elastic&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Test EC2 instance&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;region&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;us-west-2&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;instance_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2.2.2.2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;is_elastic&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;region&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;us-west-2&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;Automatically create ip-ranges from CSV files&lt;/h4&gt;
 
 &lt;p&gt;From experience, I know that many companies maintain a list of their
@@ -150,132 +179,132 @@ on the CSV column headers. Only attributes specified on the command line will
 be copied over.&lt;/p&gt;
 
 &lt;p&gt;Contents of test1.csv:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;ip_prefix, discarded_value, name
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;ip_prefix, discarded_value, name
 4.4.4.0/24, ncc group, NY office
 # This is a comment...
 5.5.5.0/24, ncc group, Seattle office
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Command line to convert the contents of the CSV file into JSON:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./aws_recipes_create_ip_ranges.py --csv-ip-ranges test1.csv --attributes ip_prefix name --profile ncc-test1 --debug
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;./aws_recipes_create_ip_ranges.py --csv-ip-ranges test1.csv --attributes ip_prefix name --profile ncc-test1 --debug
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Contents of ip-ranges-ncc-test1.json:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-    &amp;quot;createDate&amp;quot;: &amp;quot;2015-11-17-10-22-42&amp;quot;,
-    &amp;quot;prefixes&amp;quot;: [
-        {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;4.4.4.0/24&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot; NY office&amp;quot;
-        },
-        {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;5.5.5.0/24&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot; Seattle office&amp;quot;
-        }
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;createDate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2015-11-17-10-22-42&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;prefixes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;4.4.4.0/24&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; NY office&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;5.5.5.0/24&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; Seattle office&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The second example demonstrates how to use the tool to parse a CSV file with
 custom column names and separate columns for the base IP and subnet mask. The
 &amp;quot;--mappings&amp;quot; argument determines how columns will be mapped to the JSON
 file&amp;#39;s attributes.&lt;/p&gt;
 
 &lt;p&gt;Contents of test2.csv&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Base IP, Dotted Subnet Mask, Subnet Mask, Something, Name, Something else
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;Base IP, Dotted Subnet Mask, Subnet Mask, Something, Name, Something else
 3.3.3.0, 255.255.255.0, /24, Value to discard, SF Office, Other value to discard
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Command line to convert the contents of the CSV file into JSON:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./aws_recipes_create_ip_ranges.py --csv-ip-ranges test2.csv --attributes ip_prefix mask name --mappings 0 2 4 --profile ncc-test2 --skip-first-line --debug
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;./aws_recipes_create_ip_ranges.py --csv-ip-ranges test2.csv --attributes ip_prefix mask name --mappings 0 2 4 --profile ncc-test2 --skip-first-line --debug
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Contents of ip-ranges-ncc-test2.json&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-    &amp;quot;createDate&amp;quot;: &amp;quot;2015-11-17-10-07-22&amp;quot;,
-    &amp;quot;prefixes&amp;quot;: [
-        {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;3.3.3.0/24&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot; SF Office&amp;quot;
-        }
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;createDate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2015-11-17-10-07-22&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;prefixes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3.3.3.0/24&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; SF Office&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;Manually create and update ip-ranges&lt;/h4&gt;
 
 &lt;p&gt;In case CIDRs were not managed in a CSV file, the tools offers an interactive
 mode that may be leveraged to manually create a JSON ip-ranges file. The
 following snippet illustrates how to use the tool to interactively create new
 ip-ranges JSON files:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name
 
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 5.5.5.0/24
-You entered &amp;quot;5.5.5.0/24&amp;quot;. Is that correct (y/n)? 
+You entered &quot;5.5.5.0/24&quot;. Is that correct (y/n)? 
 y
-Enter the &amp;#39;name&amp;#39; value:
+Enter the 'name' value:
 San Francisco
-You entered &amp;quot;San Francisco&amp;quot;. Is that correct (y/n)? 
+You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 6.6.6.6/32
-You entered &amp;quot;6.6.6.6/32&amp;quot;. Is that correct (y/n)? 
+You entered &quot;6.6.6.6/32&quot;. Is that correct (y/n)? 
 y
-Enter the &amp;#39;name&amp;#39; value:
+Enter the 'name' value:
 San Francisco
-You entered &amp;quot;San Francisco&amp;quot;. Is that correct (y/n)? 
+You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 n
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Contents of ip-ranges-ncc-offices.json:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-    &amp;quot;createDate&amp;quot;: &amp;quot;2015-11-16-22-44-38&amp;quot;,
-    &amp;quot;prefixes&amp;quot;: [
-        {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;5.5.5.0/24&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot;San Francisco&amp;quot;
-        },
-        {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;6.6.6.6/32&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot;San Francisco&amp;quot;
-        }
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;createDate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2015-11-16-22-44-38&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;prefixes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;5.5.5.0/24&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;San Francisco&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ip_prefix&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;6.6.6.6/32&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;San Francisco&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The tool can also automatically add new CIDRs to existing ip-ranges files:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name --debug
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name --debug
 
 Loading existing IP ranges from ip-ranges-ncc-offices.json
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 7.7.7.7/32
-You entered &amp;quot;7.7.7.7/32&amp;quot;. Is that correct (y/n)? 
+You entered &quot;7.7.7.7/32&quot;. Is that correct (y/n)? 
 y
-Enter the &amp;#39;name&amp;#39; value:
+Enter the 'name' value:
 Seattle
-You entered &amp;quot;Seattle&amp;quot;. Is that correct (y/n)? 
+You entered &quot;Seattle&quot;. Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 n
-File &amp;#39;ip-ranges-ncc-offices.json&amp;#39; already exists. Do you want to overwrite it (y/n)? 
+File 'ip-ranges-ncc-offices.json' already exists. Do you want to overwrite it (y/n)? 
 y
 
 $ cat ip-ranges-ncc-offices.json 
 {
-    &amp;quot;createDate&amp;quot;: &amp;quot;2015-11-16-22-44-38&amp;quot;,
-    &amp;quot;prefixes&amp;quot;: [
+    &quot;createDate&quot;: &quot;2015-11-16-22-44-38&quot;,
+    &quot;prefixes&quot;: [
         {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;5.5.5.0/24&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot;San Francisco&amp;quot;
+            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
         },
         {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;6.6.6.6/32&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot;San Francisco&amp;quot;
+            &quot;ip_prefix&quot;: &quot;6.6.6.6/32&quot;,
+            &quot;name&quot;: &quot;San Francisco&quot;
         },
         {
-            &amp;quot;ip_prefix&amp;quot;: &amp;quot;7.7.7.7/32&amp;quot;,
-            &amp;quot;name&amp;quot;: &amp;quot;Seattle&amp;quot;
+            &quot;ip_prefix&quot;: &quot;7.7.7.7/32&quot;,
+            &quot;name&quot;: &quot;Seattle&quot;
         }
     ]
 }
@@ -382,7 +411,7 @@ credentials if need be.&lt;/p&gt;
 access, you will need to copy your long-lived credentials back to the
 &lt;em&gt;.aws/credentials&lt;/em&gt; file. This can be done with a simple command such as the
 following:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cat ~/.aws/credentials.no-mfa | sed -e &amp;#39;s/]$/-nomfa]/g&amp;#39; &amp;gt;&amp;gt; ~/.aws/credentials
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;cat ~/.aws/credentials.no-mfa | sed -e 's/]$/-nomfa]/g' &amp;gt;&amp;gt; ~/.aws/credentials
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Support to use assumed-role credentials&lt;/h3&gt;
 
@@ -393,11 +422,11 @@ profile to request role credentials for the IAM-Scout2 role. The role
 credentials are then written in the &lt;em&gt;.aws/credentials&lt;/em&gt; file in a new profile
 named &lt;em&gt;isecpartners-Scout2&lt;/em&gt;, which is the profile name appended by the role
 session name.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Users can then use their favorite tools that support profiles. For example,
 Scout2 could be run with the following command line:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./Scout2.py --profile isecpartners-Scout2
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./Scout2.py --profile isecpartners-Scout2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Note that this recipe supports MFA if the assumed role requires it:&lt;/p&gt;
 
@@ -479,21 +508,21 @@ following schema:&lt;/p&gt;
 &lt;em&gt;.aws/recipes/isecpartners.json&lt;/em&gt;, with &lt;em&gt;isecpartners&lt;/em&gt; matching the profile&amp;#39;s
 name. If you do not use profiles, the configuration will be under
 &lt;em&gt;.aws/recipes/default.json&lt;/em&gt;.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-    &amp;quot;common_groups&amp;quot;: [ &amp;quot;AllUsers&amp;quot; ],
-    &amp;quot;category_groups&amp;quot;: [
-        &amp;quot;AllHumanUsers&amp;quot;,
-        &amp;quot;AllHeadlessUsers&amp;quot;,
-        &amp;quot;AllMisconfiguredUsers&amp;quot;
-    ],
-    &amp;quot;category_regex&amp;quot;: [
-        &amp;quot;&amp;quot;,
-        &amp;quot;^Headless-(.*)&amp;quot;,
-        &amp;quot;^MisconfiguredUser-(.*)&amp;quot;
-    ],
-    &amp;quot;profile_name&amp;quot;: [ &amp;quot;isecpartners&amp;quot; ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;common_groups&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AllUsers&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;category_groups&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AllHumanUsers&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AllHeadlessUsers&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AllMisconfiguredUsers&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;category_regex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;^Headless-(.*)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;^MisconfiguredUser-(.*)&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;profile_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;isecpartners&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This configuration file declares the name of the common IAM group and two lists
 related to the categorization of IAM users:&lt;/p&gt;
 
@@ -521,17 +550,17 @@ passed as an argument, the value passed via the command line will be used.&lt;/p
 and category groups specified in the above configuration file. Running the
 following command results in four new groups being created if they did not
 already exist.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./aws_iam_create_default_groups.py --profile isecpartners
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;./aws_iam_create_default_groups.py --profile isecpartners
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;(Automatically) sort IAM users with &lt;em&gt;&lt;a href=&quot;https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_sort_users.py&quot;&gt;aws_iam_sort_users.py&lt;/a&gt;.&lt;/em&gt;&lt;/h3&gt;
 
 &lt;p&gt;This tool iterates through all IAM users and attempts to automatically detect
 the IAM groups each user should belong to. For convenience, we recommend adding
 the following to your AWS recipes configuration files:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;quot;aws_sort_users.py&amp;quot;: {
-    &amp;quot;create_groups&amp;quot;: false,
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&quot;aws_sort_users.py&quot;: {
+    &quot;create_groups&quot;: false,
 },
-&amp;quot;force_common_group&amp;quot;: true
+&quot;force_common_group&quot;: true
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This specifies default values for additional arguments to be set when running
 &lt;em&gt;aws_iam_sort_users.py&lt;/em&gt;. Specifically, with these values, running this tool
@@ -553,11 +582,11 @@ tool uses this configuration file and applies the same business logic to add
 users to the common group and appropriate category group at user creation time. In
 our test environment, for example, running the following command automatically
 added the new user to the &lt;em&gt;MisconfiguredUser&lt;/em&gt; group:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
 Creating user MisconfiguredUser-BlogPostExample...
 Save unencrypted value (y/n)? y
-User &amp;#39;MisconfiguredUser-BlogPostExample&amp;#39; does not belong to the mandatory common group &amp;#39;AllUsers&amp;#39;. Do you want to remediate this now (y/n)? y
-User &amp;#39;MisconfiguredUser-BlogPostExample&amp;#39; does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
+User 'MisconfiguredUser-BlogPostExample' does not belong to the mandatory common group 'AllUsers'. Do you want to remediate this now (y/n)? y
+User 'MisconfiguredUser-BlogPostExample' does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
 Enabling MFA for user MisconfiguredUser-BlogPostExample...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
@@ -614,14 +643,14 @@ serial number because this information must be provided when making calls to
 the STS API. Similar to the AWS CLI and SDKs, it supports profile names. The
 following code snippet is an example of calling this tool to configure a new
 profile called &lt;em&gt;isecpartners&lt;/em&gt;:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_configure_iam.py --profile isecpartners
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_configure_iam.py --profile isecpartners
 AWS Access Key ID: AWS_KEY_ID
 AWS Secret Access Key: AWS_SECRET_KEY
 AWS MFA serial: arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When looking at the &lt;em&gt;.aws&lt;/em&gt; folder, we can see that a &lt;em&gt;credentials.no-mfa&lt;/em&gt; file
 exists and that it contains the credentials that were just entered:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ls -l ~/.aws
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ls -l ~/.aws
 total 4
 -rw-r--r-- 1 loic loic 93 Apr  3 14:00 credentials.no-mfa
 $ cat ~/.aws/credentials.no-mfa
@@ -644,13 +673,13 @@ access key ID, AWS secret key, and session token). The short-lived credentials
 are then saved under the standardized &lt;em&gt;.aws/credentials&lt;/em&gt; file to be accessible
 to the AWS CLI and other tools built with the AWS SDKs. The following code
 snippet demonstrates calling this tool to request an STS session token:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ./aws_recipes_init_sts_session.py --profile isecpartners
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ./aws_recipes_init_sts_session.py --profile isecpartners
 Enter your MFA code: 123456
-Successfully configured the session token for profile &amp;#39;isecpartners&amp;#39;.
+Successfully configured the session token for profile 'isecpartners'.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;When looking at the &lt;em&gt;.aws&lt;/em&gt; folder, we can see that a standard &lt;em&gt;credentials&lt;/em&gt;
 file now exists as well and that it contains the short-lived credentials:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ ls -l ~/.aws
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;$ ls -l ~/.aws
 total 8
 -rw-r--r-- 1 loic loic 576 Apr  3 14:14 credentials
 -rw-r--r-- 1 loic loic 179 Apr  3 14:00 credentials.no-mfa
@@ -738,28 +767,28 @@ recommends the following:&lt;/p&gt;
 &lt;p&gt;This policy will enforce MFA regardless of how the IAM user authenticated with
 AWS; it will be effective whether they use password-based or key-based
 authentication.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-  &amp;quot;Version&amp;quot;: &amp;quot;2012-10-17&amp;quot;,
-  &amp;quot;Statement&amp;quot;: [
-    {
-      &amp;quot;Effect&amp;quot;: &amp;quot;Deny&amp;quot;,
-      &amp;quot;Action&amp;quot;: &amp;quot;*&amp;quot;,
-      &amp;quot;Resource&amp;quot;: &amp;quot;*&amp;quot;,
-      &amp;quot;Condition&amp;quot;: {
-        &amp;quot;Null&amp;quot;:{&amp;quot;aws:MultiFactorAuthAge&amp;quot;:&amp;quot;true&amp;quot;}
-      }
-    },
-    {
-      &amp;quot;Effect&amp;quot;: &amp;quot;Deny&amp;quot;,
-      &amp;quot;Action&amp;quot;: &amp;quot;*&amp;quot;,
-      &amp;quot;Resource&amp;quot;: &amp;quot;*&amp;quot;,
-      &amp;quot;Condition&amp;quot;: {
-        &amp;quot;NumericGreaterThan&amp;quot;:{&amp;quot;aws:MultiFactorAuthAge&amp;quot;:&amp;quot;28800&amp;quot;}
-      }
-    }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Deny&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Condition&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Null&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;aws:MultiFactorAuthAge&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Deny&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Condition&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;NumericGreaterThan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;aws:MultiFactorAuthAge&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;28800&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The first statement in the above policy denies all actions if the
 &lt;em&gt;aws:MultiFactorAuthAge&lt;/em&gt; key is not present; this key only exists if MFA is
 used [1].&lt;/p&gt;
@@ -866,39 +895,39 @@ gaps in one&amp;#39;s AWS environment security posture.&lt;/p&gt;
 their IAM users to manage their credentials, and only theirs. With all IAM
 users belonging to the common IAM group, this can be achieved by applying the
 following IAM policy to the group.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-  &amp;quot;Version&amp;quot;: &amp;quot;2012-10-17&amp;quot;,
-  &amp;quot;Statement&amp;quot;: [
-    {
-      &amp;quot;Effect&amp;quot;: &amp;quot;Allow&amp;quot;,
-      &amp;quot;Action&amp;quot;: [
-                 &amp;quot;iam:*AccessKey*&amp;quot;,
-                 &amp;quot;iam:*Password&amp;quot;,
-                 &amp;quot;iam:*MFADevice*&amp;quot;,
-                 &amp;quot;iam:UpdateLoginProfile&amp;quot;
-        ],
-      &amp;quot;Resource&amp;quot;: &amp;quot;arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}&amp;quot;
-    },
-    {
-      &amp;quot;Effect&amp;quot;: &amp;quot;Allow&amp;quot;,
-      &amp;quot;Action&amp;quot;: [
-                 &amp;quot;iam:CreateVirtualMFADevice&amp;quot;,
-                 &amp;quot;iam:DeleteVirtualMFADevice&amp;quot;
-      ],
-      &amp;quot;Resource&amp;quot;: &amp;quot;arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}&amp;quot;
-    }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:*AccessKey*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:*Password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:*MFADevice*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:UpdateLoginProfile&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:CreateVirtualMFADevice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                 &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:DeleteVirtualMFADevice&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;While the above policy is sufficient to allow users to manage their
 credentials, AWS administrators may consider the following statement as an
 addition; it allows IAM users to know what the account&amp;#39;s password policy is.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;{
-  &amp;quot;Effect&amp;quot;: &amp;quot;Allow&amp;quot;,
-  &amp;quot;Action&amp;quot;: &amp;quot;iam:GetAccountPasswordPolicy&amp;quot;,
-  &amp;quot;Resource&amp;quot;: &amp;quot;*&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Effect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Allow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;iam:GetAccountPasswordPolicy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Use AWS Scout2 to detect user policies&lt;/h3&gt;
 
 &lt;p&gt;The default ruleset used by &lt;a href=&quot;https://github.com/iSECPartners/Scout2&quot;&gt;AWS
@@ -935,7 +964,7 @@ group. In order to enable this rule, the following can be done:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Note&lt;/em&gt;&lt;/strong&gt;: If you have already run Scout2 and do not wish to download the latest
 IAM configuration, use the following command to run an offline analysis:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./Scout2.py --ruleset_name isec --services iam --local
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;./Scout2.py --ruleset_name isec --services iam --local
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The following screenshot illustrates the IAM menu dropdown containing a
 security risk when IAM users do not belong to the configured common group.&lt;/p&gt;
@@ -1049,17 +1078,6 @@ present a strategy to improve one&amp;#39;s security posture when using AWS.&lt;
         <pubDate>Sun, 22 Feb 2015 22:24:00 -0800</pubDate>
         <link>http://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</link>
         <guid isPermaLink="true">http://l01cd3v.github.io/aws/2015/02/22/announcing_the_aws_blog_post_series.html</guid>
-      </item>
-    
-      <item>
-        <title>Intro</title>
-        <description>&lt;p&gt;I&amp;#39;m a Security Engineer and, on this blog, I will talk about research projects
-I work on, tools that I write and publish, and miscellaneous security and
-privacy related subjects.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 21 Feb 2015 17:00:00 -0800</pubDate>
-        <link>http://l01cd3v.github.io/2015/02/21/hello_world.html</link>
-        <guid isPermaLink="true">http://l01cd3v.github.io/2015/02/21/hello_world.html</guid>
       </item>
     
   </channel>

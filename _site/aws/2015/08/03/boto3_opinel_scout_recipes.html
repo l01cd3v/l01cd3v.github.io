@@ -39,8 +39,6 @@
           <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -103,7 +101,7 @@ credentials if need be.</p>
 access, you will need to copy your long-lived credentials back to the
 <em>.aws/credentials</em> file. This can be done with a simple command such as the
 following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cat ~/.aws/credentials.no-mfa | sed -e &#39;s/]$/-nomfa]/g&#39; &gt;&gt; ~/.aws/credentials
+<div class="highlight"><pre><code class="language-" data-lang="">cat ~/.aws/credentials.no-mfa | sed -e 's/]$/-nomfa]/g' &gt;&gt; ~/.aws/credentials
 </code></pre></div>
 <h3>Support to use assumed-role credentials</h3>
 
@@ -114,11 +112,11 @@ profile to request role credentials for the IAM-Scout2 role. The role
 credentials are then written in the <em>.aws/credentials</em> file in a new profile
 named <em>isecpartners-Scout2</em>, which is the profile name appended by the role
 session name.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_assume_role.py --profile isecpartners --role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/IAM-Scout2 --role-session-name Scout2
 </code></pre></div>
 <p>Users can then use their favorite tools that support profiles. For example,
 Scout2 could be run with the following command line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./Scout2.py --profile isecpartners-Scout2
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./Scout2.py --profile isecpartners-Scout2
 </code></pre></div>
 <p>Note that this recipe supports MFA if the assumed role requires it:</p>
 

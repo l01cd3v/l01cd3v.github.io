@@ -44,7 +44,142 @@
     <article class="post">
 
   
+
+  <h1>
     
+      <a href="/aws/2015/04/03/session_management_tools.html">Work daily with enforced MFA-protected API access</a>
+    
+  </h1>
+
+  <div class="date">
+    Published on April  3, 2015
+  </div>
+
+  
+    <h6>
+    [Originally published on <a target="_blank" href="https://isecpartners.github.io/">iSEC Partners's research blog</a>]
+</h6>
+
+  
+
+  
+
+  <div class="entry">
+    
+      <h3>AWS Security Token Service</h3>
+
+<p>The AWS Security Token Service (STS) is the gateway used to create sessions
+when MFA-protected API access is enabled. This service allows IAM users to
+retrieve short-lived credentials (<em>i.e</em> access key ID, secret access key, and
+session token) in exchange for their long-lived credentials (<em>i.e.</em> AWS access
+key ID and secret key) and their current authentication code. When enforcing
+MFA-protected API access, as recommended in the previous <a href="/aws/2015/04/02/use_and_enforce_mfa.html">Use and enforce
+Multi-Factor
+Authentication</a> post,
+IAM users must use these short-lived credentials to access other AWS services.</p>
+
+<h3>Challenges with MFA-protected API access</h3>
+
+<p>When MFA-protected API access is enforced, managing AWS access keys becomes
+challenging because configuration files that contain these credentials must be
+updated regularly. Users must also ensure that they do not lose their
+long-lived credentials when modifying the configuration files to write their
+short-lived credentials. In order to help with this workflow, iSEC wrote and
+released several simple tools in the
+<a href="https://github.com/iSECPartners/AWS-recipes">AWS-recipes</a> repository.</p>
+
+<p>The collection of tools that we will discussed below uses the &quot;<a
+target="_blank"
+href="https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs">new
+and standardized way to manage credentials in the AWS SDKs</a>&quot;, meaning that
+SDKs are expecting to read credentials from the <em>.aws/credentials</em> file under
+the user&#39;s home or  profile directory.</p>
+
+<h3>aws_recipes_configure_iam.py</h3>
+
+<p>The
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_configure_iam.py">aws_recipes_configure_iam.py</a>
+tool allows users to configure and store their long-lived credentials in a new,
+non-standard, <em>.aws/credentials.no-mfa</em> file. In addition to prompting for the
+AWS access key ID and secret key, this tool also prompts for the MFA device
+serial number because this information must be provided when making calls to
+the STS API. Similar to the AWS CLI and SDKs, it supports profile names. The
+following code snippet is an example of calling this tool to configure a new
+profile called <em>isecpartners</em>:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_configure_iam.py --profile isecpartners
+AWS Access Key ID: AWS_KEY_ID
+AWS Secret Access Key: AWS_SECRET_KEY
+AWS MFA serial: arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+</code></pre></div>
+<p>When looking at the <em>.aws</em> folder, we can see that a <em>credentials.no-mfa</em> file
+exists and that it contains the credentials that were just entered:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ ls -l ~/.aws
+total 4
+-rw-r--r-- 1 loic loic 93 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials.no-mfa
+[isecpartners]
+aws_access_key_id = AWS_KEY_ID
+aws_secret_access_key = AWS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+</code></pre></div>
+<p>Now that long-lived credentials are configured, we can use the next tool to
+call the AWS STS API and request short-lived credentials that will be used
+to access other AWS services.</p>
+
+<h3>aws_recipes_init_sts_session.py</h3>
+
+<p>The
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_init_sts_session.py">aws_recipes_init_sts_session.py</a>
+tool reads long-lived credentials configured in the .aws/credentials.no-mfa
+file, prompts users for their MFA code, and retrieves STS credentials (AWS
+access key ID, AWS secret key, and session token). The short-lived credentials
+are then saved under the standardized <em>.aws/credentials</em> file to be accessible
+to the AWS CLI and other tools built with the AWS SDKs. The following code
+snippet demonstrates calling this tool to request an STS session token:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_init_sts_session.py --profile isecpartners
+Enter your MFA code: 123456
+Successfully configured the session token for profile 'isecpartners'.
+</code></pre></div>
+<p>When looking at the <em>.aws</em> folder, we can see that a standard <em>credentials</em>
+file now exists as well and that it contains the short-lived credentials:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ ls -l ~/.aws
+total 8
+-rw-r--r-- 1 loic loic 576 Apr  3 14:14 credentials
+-rw-r--r-- 1 loic loic 179 Apr  3 14:00 credentials.no-mfa
+$ cat ~/.aws/credentials
+[isecpartners]
+aws_access_key_id = STS_KEY_ID
+aws_secret_access_key = STS_SECRET_KEY
+aws_mfa_serial = arn:aws:iam::AWS_ACCOUNT_ID:mfa/USER_NAME
+aws_session_token = AWS//////////SESSION_TOKEN
+</code></pre></div>
+<p>Now that the short-lived credentials are configured, we can use the AWS CLI or
+other tools built with the AWS SDKs that read credentials from this standard
+location. When the STS session expires, users just need to re-run the
+<a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_recipes_init_sts_session.py">aws_recipes_init_sts_session.py</a>
+tool and the standard <em>credentials</em> file will be updated with new valid
+short-lived credentials.</p>
+
+<h3>Conclusion</h3>
+
+<p>By using this pair of tools to manage their AWS access keys, IAM users can
+easily use the AWS CLI and other tools built with various AWS SDKs in
+environments that have been secured and enforce MFA-protected API access.</p>
+
+    
+  </div>
+
+</article>
+
+
+    
+      <hr>
+    
+
+
+
+    <article class="post">
+
   
 
   <h1>
@@ -125,28 +260,28 @@ recommends the following:</p>
 <p>This policy will enforce MFA regardless of how the IAM user authenticated with
 AWS; it will be effective whether they use password-based or key-based
 authentication.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;Null&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;true&quot;}
-      }
-    },
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;NumericGreaterThan&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;28800&quot;}
-      }
-    }
-  ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deny"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"Null"</span><span class="p">:{</span><span class="nt">"aws:MultiFactorAuthAge"</span><span class="p">:</span><span class="s2">"true"</span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deny"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"NumericGreaterThan"</span><span class="p">:{</span><span class="nt">"aws:MultiFactorAuthAge"</span><span class="p">:</span><span class="s2">"28800"</span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The first statement in the above policy denies all actions if the
 <em>aws:MultiFactorAuthAge</em> key is not present; this key only exists if MFA is
 used [1].</p>
@@ -219,8 +354,6 @@ reduce risks of account compromise.</p>
     <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -285,39 +418,39 @@ gaps in one&#39;s AWS environment security posture.</p>
 their IAM users to manage their credentials, and only theirs. With all IAM
 users belonging to the common IAM group, this can be achieved by applying the
 following IAM policy to the group.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:*AccessKey*&quot;,
-                 &quot;iam:*Password&quot;,
-                 &quot;iam:*MFADevice*&quot;,
-                 &quot;iam:UpdateLoginProfile&quot;
-        ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}&quot;
-    },
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:CreateVirtualMFADevice&quot;,
-                 &quot;iam:DeleteVirtualMFADevice&quot;
-      ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}&quot;
-    }
-  ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                 </span><span class="s2">"iam:*AccessKey*"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:*Password"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:*MFADevice*"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:UpdateLoginProfile"</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                 </span><span class="s2">"iam:CreateVirtualMFADevice"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:DeleteVirtualMFADevice"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>While the above policy is sufficient to allow users to manage their
 credentials, AWS administrators may consider the following statement as an
 addition; it allows IAM users to know what the account&#39;s password policy is.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Effect&quot;: &quot;Allow&quot;,
-  &quot;Action&quot;: &quot;iam:GetAccountPasswordPolicy&quot;,
-  &quot;Resource&quot;: &quot;*&quot;
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iam:GetAccountPasswordPolicy"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <h3>Use AWS Scout2 to detect user policies</h3>
 
 <p>The default ruleset used by <a href="https://github.com/iSECPartners/Scout2">AWS
@@ -354,7 +487,7 @@ group. In order to enable this rule, the following can be done:</p>
 
 <p><strong><em>Note</em></strong>: If you have already run Scout2 and do not wish to download the latest
 IAM configuration, use the following command to run an offline analysis:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./Scout2.py --ruleset_name isec --services iam --local
+<div class="highlight"><pre><code class="language-" data-lang="">./Scout2.py --ruleset_name isec --services iam --local
 </code></pre></div>
 <p>The following screenshot illustrates the IAM menu dropdown containing a
 security risk when IAM users do not belong to the configured common group.</p>
@@ -388,8 +521,6 @@ and lower the chances of overly privileged users to exist.</p>
 
     <article class="post">
 
-  
-    
   
 
   <h1>
@@ -477,8 +608,6 @@ environment is only as secure as an email.</strong></p>
     <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -536,44 +665,6 @@ present a strategy to improve one&#39;s security posture when using AWS.</p>
 
 
     
-      <hr>
-    
-
-
-
-    <article class="post">
-
-  
-    
-  
-
-  <h1>
-    
-      <a href="/2015/02/21/hello_world.html">Intro</a>
-    
-  </h1>
-
-  <div class="date">
-    Published on February 21, 2015
-  </div>
-
-  
-
-  
-
-  <div class="entry">
-    
-      <p>I&#39;m a Security Engineer and, on this blog, I will talk about research projects
-I work on, tools that I write and publish, and miscellaneous security and
-privacy related subjects.</p>
-
-    
-  </div>
-
-</article>
-
-
-    
       
     
 
@@ -583,7 +674,7 @@ privacy related subjects.</p>
 
 <div class="pagination">
   
-    <a href="/index.html">&laquo; Prev</a>
+    <a href="/">&laquo; Prev</a>
   
 
   
@@ -595,9 +686,13 @@ privacy related subjects.</p>
       <em>2</em>
     
   
+    
+      <a href="/page3">3</a>
+    
+  
 
   
-    <span>Next &raquo;</span>
+    <a href="/page3">Next &raquo;</a>
   
 </div>
 

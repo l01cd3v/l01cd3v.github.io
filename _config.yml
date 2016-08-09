@@ -29,7 +29,8 @@ url: http://l01cd3v.github.io
 #
 
 markdown: redcarpet
-highlighter: pygments
+#highlighter: pygments
+gems: [jekyll-paginate]
 
 # Exclude these files from your production _site
 exclude:

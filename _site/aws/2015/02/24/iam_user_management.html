@@ -39,8 +39,6 @@
           <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -105,39 +103,39 @@ gaps in one&#39;s AWS environment security posture.</p>
 their IAM users to manage their credentials, and only theirs. With all IAM
 users belonging to the common IAM group, this can be achieved by applying the
 following IAM policy to the group.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:*AccessKey*&quot;,
-                 &quot;iam:*Password&quot;,
-                 &quot;iam:*MFADevice*&quot;,
-                 &quot;iam:UpdateLoginProfile&quot;
-        ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}&quot;
-    },
-    {
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-                 &quot;iam:CreateVirtualMFADevice&quot;,
-                 &quot;iam:DeleteVirtualMFADevice&quot;
-      ],
-      &quot;Resource&quot;: &quot;arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}&quot;
-    }
-  ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                 </span><span class="s2">"iam:*AccessKey*"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:*Password"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:*MFADevice*"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:UpdateLoginProfile"</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam::AWS_ACCOUNT_ID:user/${aws:username}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                 </span><span class="s2">"iam:CreateVirtualMFADevice"</span><span class="p">,</span><span class="w">
+                 </span><span class="s2">"iam:DeleteVirtualMFADevice"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam::AWS_ACCOUNT_ID:mfa/${aws:username}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>While the above policy is sufficient to allow users to manage their
 credentials, AWS administrators may consider the following statement as an
 addition; it allows IAM users to know what the account&#39;s password policy is.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Effect&quot;: &quot;Allow&quot;,
-  &quot;Action&quot;: &quot;iam:GetAccountPasswordPolicy&quot;,
-  &quot;Resource&quot;: &quot;*&quot;
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iam:GetAccountPasswordPolicy"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <h3>Use AWS Scout2 to detect user policies</h3>
 
 <p>The default ruleset used by <a href="https://github.com/iSECPartners/Scout2">AWS
@@ -174,7 +172,7 @@ group. In order to enable this rule, the following can be done:</p>
 
 <p><strong><em>Note</em></strong>: If you have already run Scout2 and do not wish to download the latest
 IAM configuration, use the following command to run an offline analysis:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./Scout2.py --ruleset_name isec --services iam --local
+<div class="highlight"><pre><code class="language-" data-lang="">./Scout2.py --ruleset_name isec --services iam --local
 </code></pre></div>
 <p>The following screenshot illustrates the IAM menu dropdown containing a
 security risk when IAM users do not belong to the configured common group.</p>
