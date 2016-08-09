@@ -39,8 +39,6 @@
           <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -120,21 +118,21 @@ following schema:</p>
 <em>.aws/recipes/isecpartners.json</em>, with <em>isecpartners</em> matching the profile&#39;s
 name. If you do not use profiles, the configuration will be under
 <em>.aws/recipes/default.json</em>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-    &quot;common_groups&quot;: [ &quot;AllUsers&quot; ],
-    &quot;category_groups&quot;: [
-        &quot;AllHumanUsers&quot;,
-        &quot;AllHeadlessUsers&quot;,
-        &quot;AllMisconfiguredUsers&quot;
-    ],
-    &quot;category_regex&quot;: [
-        &quot;&quot;,
-        &quot;^Headless-(.*)&quot;,
-        &quot;^MisconfiguredUser-(.*)&quot;
-    ],
-    &quot;profile_name&quot;: [ &quot;isecpartners&quot; ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+    </span><span class="nt">"common_groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"AllUsers"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"category_groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"AllHumanUsers"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"AllHeadlessUsers"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"AllMisconfiguredUsers"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"category_regex"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"^Headless-(.*)"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"^MisconfiguredUser-(.*)"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"profile_name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"isecpartners"</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>This configuration file declares the name of the common IAM group and two lists
 related to the categorization of IAM users:</p>
 
@@ -162,17 +160,17 @@ passed as an argument, the value passed via the command line will be used.</p>
 and category groups specified in the above configuration file. Running the
 following command results in four new groups being created if they did not
 already exist.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_iam_create_default_groups.py --profile isecpartners
+<div class="highlight"><pre><code class="language-" data-lang="">./aws_iam_create_default_groups.py --profile isecpartners
 </code></pre></div>
 <h3>(Automatically) sort IAM users with <em><a href="https://github.com/iSECPartners/AWS-recipes/blob/master/Python/aws_iam_sort_users.py">aws_iam_sort_users.py</a>.</em></h3>
 
 <p>This tool iterates through all IAM users and attempts to automatically detect
 the IAM groups each user should belong to. For convenience, we recommend adding
 the following to your AWS recipes configuration files:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;aws_sort_users.py&quot;: {
-    &quot;create_groups&quot;: false,
+<div class="highlight"><pre><code class="language-" data-lang="">"aws_sort_users.py": {
+    "create_groups": false,
 },
-&quot;force_common_group&quot;: true
+"force_common_group": true
 </code></pre></div>
 <p>This specifies default values for additional arguments to be set when running
 <em>aws_iam_sort_users.py</em>. Specifically, with these values, running this tool
@@ -194,11 +192,11 @@ tool uses this configuration file and applies the same business logic to add
 users to the common group and appropriate category group at user creation time. In
 our test environment, for example, running the following command automatically
 added the new user to the <em>MisconfiguredUser</em> group:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_iam_create_user.py --profile isecpartners --users MisconfiguredUser-BlogPostExample
 Creating user MisconfiguredUser-BlogPostExample...
 Save unencrypted value (y/n)? y
-User &#39;MisconfiguredUser-BlogPostExample&#39; does not belong to the mandatory common group &#39;AllUsers&#39;. Do you want to remediate this now (y/n)? y
-User &#39;MisconfiguredUser-BlogPostExample&#39; does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
+User 'MisconfiguredUser-BlogPostExample' does not belong to the mandatory common group 'AllUsers'. Do you want to remediate this now (y/n)? y
+User 'MisconfiguredUser-BlogPostExample' does not belong to any of the category group (AllHumanUsers, AllHeadlessUsers, AllMisconfiguredUsers). Automatically adding...
 Enabling MFA for user MisconfiguredUser-BlogPostExample...
 </code></pre></div>
 <h3>Conclusion</h3>

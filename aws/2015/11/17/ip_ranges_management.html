@@ -39,8 +39,6 @@
           <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -93,7 +91,7 @@ Scout2 may now rely on the name associated with each CIDR.</p>
 
 <p>In order to use this new feature, Scout2 should be run with the following
 arguments:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./Scout2.py --profile nccgroup --ip-ranges ip-ranges-nccgroup.json ip-ranges-ncc-offices.json --ip-ranges-key-name name
+<div class="highlight"><pre><code class="language-" data-lang="">./Scout2.py --profile nccgroup --ip-ranges ip-ranges-nccgroup.json ip-ranges-ncc-offices.json --ip-ranges-key-name name
 </code></pre></div>
 <p>In the above command line, Scout2 receives two ip-ranges JSON files via the
 &quot;--ip-ranges&quot; argument:</p>
@@ -146,9 +144,9 @@ so, AWS users will be able to maintain a list of public IP addresses in the AWS
 IP space that are associated with their resources. Assuming that AWS
 credentials are configured under the &quot;nccgroup&quot; profile name, the command
 below may be used:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --profile nccgroup --debug
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_create_ip_ranges.py --profile nccgroup --debug
 
-Fetching public IP information for the &#39;nccgroup&#39; environment...
+Fetching public IP information for the 'nccgroup' environment...
 ...in us-east-1: EC2 instances
 ...in us-east-1: Elastic IP addresses
 ...in ap-northeast-1: EC2 instances
@@ -172,26 +170,26 @@ Fetching public IP information for the &#39;nccgroup&#39; environment...
 with an AWS resource, and one EC2 instance that has a non-elastic public IP.
 Executing the above command results in the creation of an
 &quot;ip-ranges-nccgroup.json&quot; file that has the following contents:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-    &quot;createDate&quot;: &quot;2015-11-16-22-49-27&quot;,
-    &quot;prefixes&quot;: [
-        {
-            &quot;instance_id&quot;: &quot;i-11223344&quot;,
-            &quot;ip_prefix&quot;: &quot;1.1.1.1&quot;,
-            &quot;is_elastic&quot;: false,
-            &quot;name&quot;: &quot;Test EC2 instance&quot;,
-            &quot;region&quot;: &quot;us-west-2&quot;
-        },
-        {
-            &quot;instance_id&quot;: null,
-            &quot;ip_prefix&quot;: &quot;2.2.2.2&quot;,
-            &quot;is_elastic&quot;: true,
-            &quot;name&quot;: null,
-            &quot;region&quot;: &quot;us-west-2&quot;
-        }
-    ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+    </span><span class="nt">"createDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-16-22-49-27"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"prefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"i-11223344"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.1.1.1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_elastic"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test EC2 instance"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"us-west-2"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.2.2.2"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_elastic"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"us-west-2"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <h4>Automatically create ip-ranges from CSV files</h4>
 
 <p>From experience, I know that many companies maintain a list of their
@@ -205,132 +203,132 @@ on the CSV column headers. Only attributes specified on the command line will
 be copied over.</p>
 
 <p>Contents of test1.csv:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ip_prefix, discarded_value, name
+<div class="highlight"><pre><code class="language-" data-lang="">ip_prefix, discarded_value, name
 4.4.4.0/24, ncc group, NY office
 # This is a comment...
 5.5.5.0/24, ncc group, Seattle office
 </code></pre></div>
 <p>Command line to convert the contents of the CSV file into JSON:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test1.csv --attributes ip_prefix name --profile ncc-test1 --debug
+<div class="highlight"><pre><code class="language-" data-lang="">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test1.csv --attributes ip_prefix name --profile ncc-test1 --debug
 </code></pre></div>
 <p>Contents of ip-ranges-ncc-test1.json:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-    &quot;createDate&quot;: &quot;2015-11-17-10-22-42&quot;,
-    &quot;prefixes&quot;: [
-        {
-            &quot;ip_prefix&quot;: &quot;4.4.4.0/24&quot;,
-            &quot;name&quot;: &quot; NY office&quot;
-        },
-        {
-            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
-            &quot;name&quot;: &quot; Seattle office&quot;
-        }
-    ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+    </span><span class="nt">"createDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-17-10-22-42"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"prefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.4.4.0/24"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">" NY office"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.5.5.0/24"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">" Seattle office"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The second example demonstrates how to use the tool to parse a CSV file with
 custom column names and separate columns for the base IP and subnet mask. The
 &quot;--mappings&quot; argument determines how columns will be mapped to the JSON
 file&#39;s attributes.</p>
 
 <p>Contents of test2.csv</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Base IP, Dotted Subnet Mask, Subnet Mask, Something, Name, Something else
+<div class="highlight"><pre><code class="language-" data-lang="">Base IP, Dotted Subnet Mask, Subnet Mask, Something, Name, Something else
 3.3.3.0, 255.255.255.0, /24, Value to discard, SF Office, Other value to discard
 </code></pre></div>
 <p>Command line to convert the contents of the CSV file into JSON:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test2.csv --attributes ip_prefix mask name --mappings 0 2 4 --profile ncc-test2 --skip-first-line --debug
+<div class="highlight"><pre><code class="language-" data-lang="">./aws_recipes_create_ip_ranges.py --csv-ip-ranges test2.csv --attributes ip_prefix mask name --mappings 0 2 4 --profile ncc-test2 --skip-first-line --debug
 </code></pre></div>
 <p>Contents of ip-ranges-ncc-test2.json</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-    &quot;createDate&quot;: &quot;2015-11-17-10-07-22&quot;,
-    &quot;prefixes&quot;: [
-        {
-            &quot;ip_prefix&quot;: &quot;3.3.3.0/24&quot;,
-            &quot;name&quot;: &quot; SF Office&quot;
-        }
-    ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+    </span><span class="nt">"createDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-17-10-07-22"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"prefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.3.3.0/24"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">" SF Office"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <h4>Manually create and update ip-ranges</h4>
 
 <p>In case CIDRs were not managed in a CSV file, the tools offers an interactive
 mode that may be leveraged to manually create a JSON ip-ranges file. The
 following snippet illustrates how to use the tool to interactively create new
 ip-ranges JSON files:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name
 
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 5.5.5.0/24
-You entered &quot;5.5.5.0/24&quot;. Is that correct (y/n)? 
+You entered "5.5.5.0/24". Is that correct (y/n)? 
 y
-Enter the &#39;name&#39; value:
+Enter the 'name' value:
 San Francisco
-You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
+You entered "San Francisco". Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 6.6.6.6/32
-You entered &quot;6.6.6.6/32&quot;. Is that correct (y/n)? 
+You entered "6.6.6.6/32". Is that correct (y/n)? 
 y
-Enter the &#39;name&#39; value:
+Enter the 'name' value:
 San Francisco
-You entered &quot;San Francisco&quot;. Is that correct (y/n)? 
+You entered "San Francisco". Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 n
 </code></pre></div>
 <p>Contents of ip-ranges-ncc-offices.json:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-    &quot;createDate&quot;: &quot;2015-11-16-22-44-38&quot;,
-    &quot;prefixes&quot;: [
-        {
-            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
-            &quot;name&quot;: &quot;San Francisco&quot;
-        },
-        {
-            &quot;ip_prefix&quot;: &quot;6.6.6.6/32&quot;,
-            &quot;name&quot;: &quot;San Francisco&quot;
-        }
-    ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+    </span><span class="nt">"createDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-11-16-22-44-38"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"prefixes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5.5.5.0/24"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ip_prefix"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.6.6.6/32"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The tool can also automatically add new CIDRs to existing ip-ranges files:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name --debug
+<div class="highlight"><pre><code class="language-" data-lang="">$ ./aws_recipes_create_ip_ranges.py --interactive --profile ncc-offices --attributes name --debug
 
 Loading existing IP ranges from ip-ranges-ncc-offices.json
 Add a new IP prefix to the ip ranges (y/n)? 
 y
 Enter the new IP prefix:
 7.7.7.7/32
-You entered &quot;7.7.7.7/32&quot;. Is that correct (y/n)? 
+You entered "7.7.7.7/32". Is that correct (y/n)? 
 y
-Enter the &#39;name&#39; value:
+Enter the 'name' value:
 Seattle
-You entered &quot;Seattle&quot;. Is that correct (y/n)? 
+You entered "Seattle". Is that correct (y/n)? 
 y
 Add a new IP prefix to the ip ranges (y/n)? 
 n
-File &#39;ip-ranges-ncc-offices.json&#39; already exists. Do you want to overwrite it (y/n)? 
+File 'ip-ranges-ncc-offices.json' already exists. Do you want to overwrite it (y/n)? 
 y
 
 $ cat ip-ranges-ncc-offices.json 
 {
-    &quot;createDate&quot;: &quot;2015-11-16-22-44-38&quot;,
-    &quot;prefixes&quot;: [
+    "createDate": "2015-11-16-22-44-38",
+    "prefixes": [
         {
-            &quot;ip_prefix&quot;: &quot;5.5.5.0/24&quot;,
-            &quot;name&quot;: &quot;San Francisco&quot;
+            "ip_prefix": "5.5.5.0/24",
+            "name": "San Francisco"
         },
         {
-            &quot;ip_prefix&quot;: &quot;6.6.6.6/32&quot;,
-            &quot;name&quot;: &quot;San Francisco&quot;
+            "ip_prefix": "6.6.6.6/32",
+            "name": "San Francisco"
         },
         {
-            &quot;ip_prefix&quot;: &quot;7.7.7.7/32&quot;,
-            &quot;name&quot;: &quot;Seattle&quot;
+            "ip_prefix": "7.7.7.7/32",
+            "name": "Seattle"
         }
     ]
 }

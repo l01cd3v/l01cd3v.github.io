@@ -39,8 +39,6 @@
           <article class="post">
 
   
-    
-  
 
   <h1>
     
@@ -120,28 +118,28 @@ recommends the following:</p>
 <p>This policy will enforce MFA regardless of how the IAM user authenticated with
 AWS; it will be effective whether they use password-based or key-based
 authentication.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;Null&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;true&quot;}
-      }
-    },
-    {
-      &quot;Effect&quot;: &quot;Deny&quot;,
-      &quot;Action&quot;: &quot;*&quot;,
-      &quot;Resource&quot;: &quot;*&quot;,
-      &quot;Condition&quot;: {
-        &quot;NumericGreaterThan&quot;:{&quot;aws:MultiFactorAuthAge&quot;:&quot;28800&quot;}
-      }
-    }
-  ]
-}
-</code></pre></div>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deny"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"Null"</span><span class="p">:{</span><span class="nt">"aws:MultiFactorAuthAge"</span><span class="p">:</span><span class="s2">"true"</span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deny"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"NumericGreaterThan"</span><span class="p">:{</span><span class="nt">"aws:MultiFactorAuthAge"</span><span class="p">:</span><span class="s2">"28800"</span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The first statement in the above policy denies all actions if the
 <em>aws:MultiFactorAuthAge</em> key is not present; this key only exists if MFA is
 used [1].</p>
