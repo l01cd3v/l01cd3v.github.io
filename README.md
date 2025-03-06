@@ -1,4 +1,4 @@
-# Published at [http://blog.l01cd3v.fr](http://blog.l01cd3v.fr)
+# Published at [http://l01cd3v.github.io](http://l01cd3v.github.io)
 
     $ # Commit a new blog post
     $ # Run jekyll to create new _site files
